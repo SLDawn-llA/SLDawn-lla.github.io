@@ -30,7 +30,7 @@
 <meta property="og:description" content="body:has(.sld-project-cardwall) .post-header {   display: none !important; } body:has(.sld-project-cardwall) .post-block, body:has(.sld-project-cardwall) .post-body {   background: transparent !impor">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-22T11:09:32.383Z">
+<meta property="article:modified_time" content="2026-06-22T11:19:14.215Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 
@@ -138,7 +138,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">PROJECTS</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#project-list"><span class="nav-number">1.</span> <span class="nav-text">Project list</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">PROJECTS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mmaudio-multi-track"><span class="nav-number">2.1.</span> <span class="nav-text">mmaudio-multi-track</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mycae"><span class="nav-number">2.2.</span> <span class="nav-text">MyCAE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lighthouse"><span class="nav-number">2.3.</span> <span class="nav-text">lighthouse</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -224,6 +224,15 @@ body:has(.sld-project-cardwall) .content {
 .sld-project-cardwall {
   padding: 28px 0 44px;
 }
+.sld-toc-anchor {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
 .sld-project-cardwall-head {
   margin-bottom: 22px;
 }
@@ -256,7 +265,7 @@ body:has(.sld-project-cardwall) .content {
   box-shadow: 0 22px 60px rgba(25, 42, 36, .18);
   color: #fff !important;
   display: block;
-  min-height: 520px;
+  min-height: 480px;
   overflow: hidden;
   position: relative;
   text-decoration: none !important;
@@ -304,24 +313,24 @@ body:has(.sld-project-cardwall) .content {
 }
 .sld-cover-title {
   bottom: auto;
-  font-size: clamp(28px, 3vw, 40px);
+  font-size: clamp(28px, 2.7vw, 38px);
   font-weight: 1000;
   left: 24px;
   line-height: .94;
   max-width: calc(100% - 48px);
   position: absolute;
-  top: 250px;
+  top: 230px;
 }
 .sld-cover-meta {
   bottom: auto;
   left: 24px;
   position: absolute;
   right: 24px;
-  top: 330px;
+  top: 315px;
 }
 .sld-cover-meta p {
   color: rgba(255, 255, 255, .82);
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.55;
   margin: 0 0 14px;
   max-width: 92%;
@@ -383,12 +392,14 @@ body:has(.sld-project-cardwall) .content {
 </style>
 
 <section class="sld-project-cardwall">
+<h2 id="project-list" class="sld-toc-anchor">Project list</h2>
 <div class="sld-project-cardwall-head">
 <p>OPEN SOURCE</p>
 <h1>PROJECTS</h1>
 <div>Selected GitHub projects. Click a cover card to open the repository.</div>
 </div>
 <div class="sld-project-cards">
+<h3 id="mmaudio-multi-track" class="sld-toc-anchor">mmaudio-multi-track</h3>
 <a class="sld-cover-card audio" href="https://github.com/SLDawn-llA/mmaudio-multi-track" target="_blank" rel="noopener">
 <span class="sld-cover-index">01 / PUBLIC</span>
 <strong class="sld-cover-title">mmaudio<br>multi-track</strong>
@@ -397,6 +408,7 @@ body:has(.sld-project-cardwall) .content {
 <div class="sld-cover-tags"><span>Audio</span><span>Multi Track</span><span>Recently Updated</span></div>
 </div>
 </a>
+<h3 id="mycae" class="sld-toc-anchor">MyCAE</h3>
 <a class="sld-cover-card cpp" href="https://github.com/SLDawn-llA/MyCAE" target="_blank" rel="noopener">
 <span class="sld-cover-index">02 / PUBLIC</span>
 <strong class="sld-cover-title">MyCAE</strong>
@@ -405,6 +417,7 @@ body:has(.sld-project-cardwall) .content {
 <div class="sld-cover-tags"><span>C++</span><span>Course Project</span><span>Engineering</span></div>
 </div>
 </a>
+<h3 id="lighthouse" class="sld-toc-anchor">lighthouse</h3>
 <a class="sld-cover-card lighthouse" href="https://github.com/SLDawn-llA/lighthouse" target="_blank" rel="noopener">
 <span class="sld-cover-index">03 / PRIVATE</span>
 <strong class="sld-cover-title">lighthouse</strong>

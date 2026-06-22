@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-22T11:09:33.489Z">
+<meta property="article:modified_time" content="2026-06-22T11:19:12.638Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -432,9 +432,10 @@ body:has(.sld-photo-stage) .content {
   position: absolute;
 }
 .sld-photo-wall-head {
-  left: 52px;
+  left: 68px;
+  pointer-events: none;
   position: absolute;
-  top: 80px;
+  top: 76px;
   width: min(430px, 80vw);
   z-index: 8;
 }
@@ -445,13 +446,13 @@ body:has(.sld-photo-stage) .content {
   margin: 0;
 }
 .sld-floating-gallery {
-  height: 2420px;
+  height: 1900px;
   left: 50%;
   position: absolute;
   top: 50%;
   transform: translate(calc(-50% + var(--pan-x, 0px)), calc(-50% + var(--pan-y, 0px)));
   transition: transform .12s linear;
-  width: 2300px;
+  width: 2200px;
   z-index: 3;
 }
 .sld-shot {
@@ -482,22 +483,22 @@ body:has(.sld-photo-stage) .content {
   margin-top: 8px;
   text-align: right;
 }
-.sld-shot-a { height: 430px; left: 80px; top: 520px; width: 330px; }
-.sld-shot-b { height: 520px; left: 740px; top: 170px; width: 390px; }
-.sld-shot-c { height: 430px; left: 1850px; top: 80px; width: 330px; }
-.sld-shot-d { height: 420px; left: 1510px; top: 680px; width: 470px; }
-.sld-shot-e { height: 520px; left: 520px; top: 930px; width: 390px; }
-.sld-shot-f { height: 420px; left: 1050px; top: 1040px; width: 360px; }
-.sld-shot-g { height: 520px; left: 1850px; top: 1160px; width: 410px; }
-.sld-shot-h { height: 380px; left: 1030px; top: 1430px; width: 450px; }
-.sld-shot-i { height: 500px; left: 70px; top: 1320px; width: 360px; }
-.sld-shot-j { height: 500px; left: 1560px; top: 1410px; width: 380px; }
-.sld-shot-k { height: 380px; left: 1700px; top: 1980px; width: 470px; }
-.sld-shot-l { height: 360px; left: 1540px; top: 360px; width: 310px; }
-.sld-shot-m { height: 350px; left: 560px; top: 450px; width: 280px; }
-.sld-shot-n { height: 360px; left: 360px; top: 1600px; width: 300px; }
-.sld-shot-o { height: 340px; left: 1420px; top: 1140px; width: 300px; }
-.sld-shot-p { height: 360px; left: 1120px; top: 520px; width: 280px; }
+.sld-shot-a { height: 410px; left: 60px; top: 470px; width: 320px; }
+.sld-shot-b { height: 500px; left: 690px; top: 150px; width: 380px; }
+.sld-shot-c { height: 420px; left: 1740px; top: 90px; width: 320px; }
+.sld-shot-d { height: 400px; left: 1450px; top: 560px; width: 450px; }
+.sld-shot-e { height: 500px; left: 470px; top: 850px; width: 380px; }
+.sld-shot-f { height: 390px; left: 980px; top: 930px; width: 350px; }
+.sld-shot-g { height: 480px; left: 1780px; top: 1020px; width: 390px; }
+.sld-shot-h { height: 360px; left: 960px; top: 1320px; width: 430px; }
+.sld-shot-i { height: 470px; left: 40px; top: 1120px; width: 340px; }
+.sld-shot-j { height: 470px; left: 1500px; top: 1220px; width: 360px; }
+.sld-shot-k { height: 360px; left: 1600px; top: 1470px; width: 440px; }
+.sld-shot-l { height: 330px; left: 1470px; top: 300px; width: 290px; }
+.sld-shot-m { height: 330px; left: 500px; top: 430px; width: 270px; }
+.sld-shot-n { height: 340px; left: 320px; top: 1310px; width: 290px; }
+.sld-shot-o { height: 320px; left: 1330px; top: 930px; width: 290px; }
+.sld-shot-p { height: 340px; left: 1060px; top: 500px; width: 270px; }
 @media (max-width: 767px) {
   .sld-photo-stage { min-height: 760px; padding: 84px 20px 36px; }
   .sld-photo-stage::before { font-size: 76px; left: 50%; top: 120px; }
@@ -546,9 +547,9 @@ body:has(.sld-photo-stage) .content {
   });
 
   let x = 0;
-  let y = 0;
-  let vx = -0.18;
-  let vy = -0.08;
+  let y = 220;
+  let vx = -0.12;
+  let vy = -0.05;
 
   function clamp() {
     const maxX = Math.max(0, (gallery.offsetWidth - window.innerWidth) / 2);
@@ -582,8 +583,8 @@ body:has(.sld-photo-stage) .content {
     event.preventDefault();
     x -= event.deltaX || event.deltaY;
     y -= event.shiftKey ? 0 : event.deltaY * .45;
-    vx = Math.sign(-(event.deltaX || event.deltaY)) * .18 || vx;
-    vy = Math.sign(-event.deltaY) * .08 || vy;
+    vx = Math.sign(-(event.deltaX || event.deltaY)) * .12 || vx;
+    vy = Math.sign(-event.deltaY) * .05 || vy;
     render();
   }, { passive: false });
 
