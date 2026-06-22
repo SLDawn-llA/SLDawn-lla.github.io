@@ -334,6 +334,24 @@
         }
       }
 
+      document.querySelectorAll('.sld-shot img').forEach(function(img) {
+        img.addEventListener('click', function() {
+          let box = document.querySelector('.sld-lightbox');
+          if (!box) {
+            box = document.createElement('div');
+            box.className = 'sld-lightbox';
+            box.innerHTML = '<img alt="">';
+            document.body.appendChild(box);
+            box.addEventListener('click', function() {
+              box.classList.remove('is-open');
+            });
+          }
+          box.querySelector('img').src = img.src;
+          box.querySelector('img').alt = img.alt;
+          box.classList.add('is-open');
+        });
+      });
+
       const revealItems = document.querySelectorAll('.sld-reveal, .post-block');
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(function(entries) {
