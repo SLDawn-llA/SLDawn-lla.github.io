@@ -34,11 +34,6 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-03.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-04.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-05.jpg">
-<meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
-<meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-02.jpg">
-<meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-03.jpg">
-<meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-04.jpg">
-<meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-05.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-06.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-07.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-08.jpg">
@@ -51,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-22T10:57:27.211Z">
+<meta property="article:modified_time" content="2026-06-22T11:02:11.121Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -332,64 +327,64 @@ body:has(.sld-photo-stage) .content {
   z-index: 3;
 }
 .sld-photo-stack a {
-  display: block;
-  position: absolute;
-  top: 0;
-}
-.sld-photo-stack img {
-  background: #eee;
+  background-image: var(--photo);
+  background-position: center;
+  background-size: cover;
   border: 3px solid rgba(255, 255, 255, .94);
   border-radius: 30px;
   box-shadow: 0 30px 90px rgba(0, 0, 0, .55);
   display: block;
   height: min(430px, 48vh);
-  object-fit: cover;
+  position: absolute;
+  top: 0;
   transition: transform .28s ease, filter .28s ease;
   width: min(300px, 24vw);
 }
-.sld-photo-stack:hover a img {
+.sld-photo-stack a::after {
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .18));
+  border-radius: 27px;
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+.sld-photo-stack:hover a {
   filter: brightness(1.08);
 }
 .sld-photo-stack a:nth-child(1) {
+  --photo: url("/images/photos/showout/photo-01.jpg");
   left: 0;
-  z-index: 1;
-}
-.sld-photo-stack a:nth-child(1) img {
   transform: rotate(-13deg) translateY(90px);
+  z-index: 1;
 }
 .sld-photo-stack a:nth-child(2) {
+  --photo: url("/images/photos/showout/photo-02.jpg");
   left: 18%;
+  transform: rotate(-6deg) translateY(48px);
   z-index: 1;
 }
-.sld-photo-stack a:nth-child(2) img {
-  transform: rotate(-6deg) translateY(48px);
-}
 .sld-photo-stack a:nth-child(3) {
+  --photo: url("/images/photos/showout/photo-03.jpg");
   left: 36%;
+  transform: rotate(1deg);
   z-index: 2;
 }
-.sld-photo-stack a:nth-child(3) img {
-  transform: rotate(1deg);
-}
 .sld-photo-stack a:nth-child(4) {
+  --photo: url("/images/photos/showout/photo-04.jpg");
   left: 54%;
+  transform: rotate(6deg) translateY(36px);
   z-index: 3;
 }
-.sld-photo-stack a:nth-child(4) img {
-  transform: rotate(6deg) translateY(36px);
-}
 .sld-photo-stack a:nth-child(5) {
+  --photo: url("/images/photos/showout/photo-05.jpg");
   left: 72%;
+  transform: rotate(10deg) translateY(82px);
   z-index: 4;
 }
-.sld-photo-stack a:nth-child(5) img {
-  transform: rotate(10deg) translateY(82px);
-}
-.sld-photo-stack:hover a:nth-child(1) img { transform: rotate(-16deg) translate(-18px, 70px); }
-.sld-photo-stack:hover a:nth-child(2) img { transform: rotate(-8deg) translate(-10px, 28px); }
-.sld-photo-stack:hover a:nth-child(3) img { transform: rotate(0deg) translateY(-18px); }
-.sld-photo-stack:hover a:nth-child(4) img { transform: rotate(8deg) translate(10px, 20px); }
-.sld-photo-stack:hover a:nth-child(5) img { transform: rotate(13deg) translate(18px, 62px); }
+.sld-photo-stack:hover a:nth-child(1) { transform: rotate(-16deg) translate(-18px, 70px); }
+.sld-photo-stack:hover a:nth-child(2) { transform: rotate(-8deg) translate(-10px, 28px); }
+.sld-photo-stack:hover a:nth-child(3) { transform: rotate(0deg) translateY(-18px); }
+.sld-photo-stack:hover a:nth-child(4) { transform: rotate(8deg) translate(10px, 20px); }
+.sld-photo-stack:hover a:nth-child(5) { transform: rotate(13deg) translate(18px, 62px); }
   z-index: 5;
 }
 .sld-photo-stage-copy {
@@ -506,7 +501,7 @@ body:has(.sld-photo-stage) .content {
   .sld-photo-stage::before { font-size: 76px; left: 50%; top: 120px; }
   .sld-photo-logo { left: 20px; top: 82px; }
   .sld-photo-stack { height: 440px; top: 250px; width: 94vw; }
-  .sld-photo-stack img { border-radius: 20px; height: 310px; width: 42vw; }
+  .sld-photo-stack a { border-radius: 20px; height: 310px; width: 42vw; }
   .sld-photo-stack a:nth-child(1) { left: 0; }
   .sld-photo-stack a:nth-child(2) { left: 14%; }
   .sld-photo-stack a:nth-child(3) { left: 28%; }
@@ -528,11 +523,11 @@ body:has(.sld-photo-stage) .content {
     <h1>PHOTOS</h1>
   </div>
   <div class="sld-photo-stack" aria-label="Enter photo wall">
-    <a href="#photo-01" aria-label="Jump to photo 1"><img data-src="/images/photos/showout/photo-01.jpg" alt="photo preview 1"></a>
-    <a href="#photo-02" aria-label="Jump to photo 2"><img data-src="/images/photos/showout/photo-02.jpg" alt="photo preview 2"></a>
-    <a href="#photo-03" aria-label="Jump to photo 3"><img data-src="/images/photos/showout/photo-03.jpg" alt="photo preview 3"></a>
-    <a href="#photo-04" aria-label="Jump to photo 4"><img data-src="/images/photos/showout/photo-04.jpg" alt="photo preview 4"></a>
-    <a href="#photo-05" aria-label="Jump to photo 5"><img data-src="/images/photos/showout/photo-05.jpg" alt="photo preview 5"></a>
+    <a href="#photo-01" aria-label="Jump to photo 1"></a>
+    <a href="#photo-02" aria-label="Jump to photo 2"></a>
+    <a href="#photo-03" aria-label="Jump to photo 3"></a>
+    <a href="#photo-04" aria-label="Jump to photo 4"></a>
+    <a href="#photo-05" aria-label="Jump to photo 5"></a>
   </div>
   <div class="sld-photo-enter">CLICK THE CARDS</div>
 </section>
