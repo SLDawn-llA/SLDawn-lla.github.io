@@ -558,6 +558,10 @@
     } catch (error) {}
 
     document.addEventListener('DOMContentLoaded', function() {
+      window.addEventListener('wheel', function(event) {
+        if (event.ctrlKey) event.preventDefault();
+      }, { passive: false });
+
       const loader = document.querySelector('.sld-loader');
       if (loader) {
         requestAnimationFrame(function() {
