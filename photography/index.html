@@ -22,12 +22,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"sldawn-lla.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"language":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="SD        PHOTOGRAPHY     PHOTOS                                     CLICK THE CARDS           SHOWOUT &#x2F; 2026     一些被我留下来的瞬间           01     02     03     04     05     06     07     08     09">
+    <meta name="description" content="body:has(.sld-photo-stage) {   background: #151515 !important; } body:has(.sld-photo-stage) .headband, body:has(.sld-photo-stage) .post-header, body:has(.sld-photo-stage) .sidebar, body:has(.sld-phot">
 <meta property="og:type" content="website">
 <meta property="og:title" content="摄影">
 <meta property="og:url" content="https://sldawn-lla.github.io/photography/index.html">
 <meta property="og:site_name" content="SLDawn&#39;s Blog">
-<meta property="og:description" content="SD        PHOTOGRAPHY     PHOTOS                                     CLICK THE CARDS           SHOWOUT &#x2F; 2026     一些被我留下来的瞬间           01     02     03     04     05     06     07     08     09">
+<meta property="og:description" content="body:has(.sld-photo-stage) {   background: #151515 !important; } body:has(.sld-photo-stage) .headband, body:has(.sld-photo-stage) .post-header, body:has(.sld-photo-stage) .sidebar, body:has(.sld-phot">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-02.jpg">
@@ -51,7 +51,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-22T10:34:44.136Z">
+<meta property="article:modified_time" content="2026-06-22T10:40:34.529Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -160,7 +160,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">PHOTOS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#photo-wall"><span class="nav-number">1.1.</span> <span class="nav-text">一些被我留下来的瞬间</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">PHOTOS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#photo-wall"><span class="nav-number">1.1.</span> <span class="nav-text">Moments kept in frame</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -225,13 +225,283 @@
       
       
       <div class="post-body">
-          <section class="sld-photo-stage">
+          <style>
+body:has(.sld-photo-stage) {
+  background: #151515 !important;
+}
+body:has(.sld-photo-stage) .headband,
+body:has(.sld-photo-stage) .post-header,
+body:has(.sld-photo-stage) .sidebar,
+body:has(.sld-photo-stage) .footer {
+  display: none !important;
+}
+body:has(.sld-photo-stage) .header {
+  background: rgba(15, 15, 15, .72) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, .08) !important;
+  backdrop-filter: blur(14px);
+}
+body:has(.sld-photo-stage) .site-title,
+body:has(.sld-photo-stage) .menu .menu-item a {
+  color: #f3f3f3 !important;
+}
+body:has(.sld-photo-stage) .main,
+body:has(.sld-photo-stage) .main-inner,
+body:has(.sld-photo-stage) .content,
+body:has(.sld-photo-stage) .post-block,
+body:has(.sld-photo-stage) .post-body {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  max-width: none !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+body:has(.sld-photo-stage) .content {
+  display: block !important;
+}
+.sld-photo-stage,
+.sld-photo-wall {
+  background: #151515;
+  color: #f3f3f3;
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
+  position: relative;
+  width: 100vw;
+}
+.sld-photo-stage {
+  min-height: 100vh;
+  padding: 70px 7vw 48px;
+}
+.sld-photo-stage::before {
+  color: transparent;
+  content: "PHOTOS";
+  font-size: clamp(92px, 16vw, 260px);
+  font-weight: 1000;
+  left: 20vw;
+  line-height: .78;
+  opacity: .96;
+  position: absolute;
+  top: 13vh;
+  -webkit-text-stroke: 3px rgba(255, 255, 255, .94);
+  z-index: 1;
+}
+.sld-photo-stage::after {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(47, 255, 69, .24), transparent 28rem),
+    radial-gradient(circle at 86% 68%, rgba(47, 158, 143, .18), transparent 34rem);
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+.sld-photo-logo {
+  align-items: center;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  color: #fff !important;
+  display: flex;
+  font-weight: 900;
+  height: 56px;
+  justify-content: center;
+  left: 4vw;
+  position: absolute;
+  text-decoration: none;
+  top: 34px;
+  width: 56px;
+  z-index: 5;
+}
+.sld-photo-logo:hover {
+  background: #20ef39;
+  border-color: #20ef39;
+  color: #111 !important;
+}
+.sld-photo-stack {
+  display: block;
+  height: min(620px, 62vh);
+  left: 50%;
+  position: absolute;
+  top: 27vh;
+  transform: translateX(-50%);
+  width: min(1120px, 86vw);
+  z-index: 3;
+}
+.sld-photo-stack img {
+  background: #eee;
+  border: 3px solid rgba(255, 255, 255, .94);
+  border-radius: 30px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, .55);
+  height: min(470px, 52vh);
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  transition: transform .28s ease, filter .28s ease;
+  width: min(330px, 27vw);
+}
+.sld-photo-stack:hover img {
+  filter: brightness(1.08);
+}
+.sld-photo-stack img:nth-child(1) {
+  left: 0;
+  transform: rotate(-13deg) translateY(90px);
+  z-index: 1;
+}
+.sld-photo-stack img:nth-child(2) {
+  left: 18%;
+  transform: rotate(-6deg) translateY(48px);
+  z-index: 2;
+}
+.sld-photo-stack img:nth-child(3) {
+  left: 36%;
+  transform: rotate(1deg);
+  z-index: 3;
+}
+.sld-photo-stack img:nth-child(4) {
+  left: 54%;
+  transform: rotate(6deg) translateY(36px);
+  z-index: 4;
+}
+.sld-photo-stack img:nth-child(5) {
+  left: 72%;
+  transform: rotate(10deg) translateY(82px);
+  z-index: 5;
+}
+.sld-photo-stack:hover img:nth-child(1) { transform: rotate(-16deg) translate(-18px, 70px); }
+.sld-photo-stack:hover img:nth-child(2) { transform: rotate(-8deg) translate(-10px, 28px); }
+.sld-photo-stack:hover img:nth-child(3) { transform: rotate(0deg) translateY(-18px); }
+.sld-photo-stack:hover img:nth-child(4) { transform: rotate(8deg) translate(10px, 20px); }
+.sld-photo-stack:hover img:nth-child(5) { transform: rotate(13deg) translate(18px, 62px); }
+.sld-photo-stage-copy {
+  bottom: 48px;
+  left: 7vw;
+  position: absolute;
+  z-index: 4;
+}
+.sld-photo-stage-copy p,
+.sld-photo-wall-head p {
+  color: #20ef39;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  margin: 0 0 10px;
+}
+.sld-photo-stage-copy h1 {
+  color: #f3f3f3;
+  font-size: 28px;
+  margin: 0;
+}
+.sld-photo-enter {
+  bottom: 34px;
+  color: #20ef39;
+  font-size: 12px;
+  font-weight: 900;
+  left: 50%;
+  letter-spacing: 3px;
+  position: absolute;
+  transform: translateX(-50%);
+  z-index: 4;
+}
+.sld-photo-wall {
+  min-height: 1900px;
+  padding: 90px 0 140px;
+}
+.sld-photo-wall::before {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+.sld-photo-wall-head {
+  left: 7vw;
+  position: sticky;
+  top: 90px;
+  width: min(430px, 80vw);
+  z-index: 2;
+}
+.sld-photo-wall-head h2 {
+  color: #f3f3f3;
+  font-size: 36px;
+  line-height: 1.15;
+  margin: 0;
+}
+.sld-floating-gallery {
+  height: 1650px;
+  margin: 0 auto;
+  position: relative;
+  width: min(1500px, 100vw);
+  z-index: 3;
+}
+.sld-shot {
+  cursor: zoom-in;
+  margin: 0;
+  position: absolute;
+  transition: transform .24s ease, filter .24s ease;
+}
+.sld-shot:hover {
+  filter: brightness(1.08);
+  transform: translateY(-8px) scale(1.02);
+}
+.sld-shot img {
+  border: 3px solid rgba(255, 255, 255, .9);
+  border-radius: 18px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .45);
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+.sld-shot figcaption {
+  color: rgba(255, 255, 255, .62);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin-top: 8px;
+  text-align: right;
+}
+.sld-shot-a { height: 360px; left: 2%; top: 40px; width: 280px; }
+.sld-shot-b { height: 430px; left: 31%; top: 130px; width: 320px; }
+.sld-shot-c { height: 360px; right: 5%; top: 20px; width: 280px; }
+.sld-shot-d { height: 330px; left: 60%; top: 430px; width: 380px; }
+.sld-shot-e { height: 410px; left: 8%; top: 570px; width: 310px; }
+.sld-shot-f { height: 360px; left: 39%; top: 760px; width: 300px; }
+.sld-shot-g { height: 430px; right: 2%; top: 830px; width: 340px; }
+.sld-shot-h { height: 310px; left: 22%; top: 1110px; width: 360px; }
+.sld-shot-i { height: 360px; left: 4%; top: 1280px; width: 290px; }
+.sld-shot-j { height: 420px; left: 49%; top: 1210px; width: 330px; }
+.sld-shot-k { height: 310px; right: 6%; top: 1370px; width: 360px; }
+.sld-shot-l { height: 300px; left: 70%; top: 230px; width: 260px; }
+.sld-shot-m { height: 290px; left: 18%; top: 300px; width: 230px; }
+.sld-shot-n { height: 300px; left: 3%; top: 980px; width: 250px; }
+.sld-shot-o { height: 280px; left: 61%; top: 1030px; width: 240px; }
+.sld-shot-p { height: 290px; left: 34%; top: 30px; width: 230px; }
+@media (max-width: 767px) {
+  .sld-photo-stage { min-height: 760px; padding: 84px 20px 36px; }
+  .sld-photo-stage::before { font-size: 76px; left: 18px; top: 120px; }
+  .sld-photo-logo { left: 20px; top: 82px; }
+  .sld-photo-stack { height: 440px; top: 250px; width: 94vw; }
+  .sld-photo-stack img { border-radius: 20px; height: 310px; width: 42vw; }
+  .sld-photo-stack img:nth-child(1) { left: 0; }
+  .sld-photo-stack img:nth-child(2) { left: 14%; }
+  .sld-photo-stack img:nth-child(3) { left: 28%; }
+  .sld-photo-stack img:nth-child(4) { left: 42%; }
+  .sld-photo-stack img:nth-child(5) { left: 56%; }
+  .sld-photo-wall { min-height: auto; padding: 70px 0; }
+  .sld-photo-wall-head { margin: 0 20px 28px; position: relative; top: auto; left: auto; }
+  .sld-floating-gallery { display: grid; gap: 16px; height: auto; padding: 0 18px; width: auto; }
+  .sld-shot { height: auto !important; left: auto !important; position: relative; right: auto !important; top: auto !important; width: auto !important; }
+  .sld-shot img { aspect-ratio: 4 / 3; }
+}
+</style>
+
+<section class="sld-photo-stage">
   <a class="sld-photo-logo" href="/">SD</a>
   <div class="sld-photo-stage-copy">
     <p>PHOTOGRAPHY</p>
     <h1>PHOTOS</h1>
   </div>
-  <a class="sld-photo-stack" href="#photo-wall" aria-label="进入照片展示">
+  <a class="sld-photo-stack" href="#photo-wall" aria-label="Enter photo wall">
     <img data-src="/images/photos/showout/photo-01.jpg" alt="photo preview 1">
     <img data-src="/images/photos/showout/photo-02.jpg" alt="photo preview 2">
     <img data-src="/images/photos/showout/photo-03.jpg" alt="photo preview 3">
@@ -244,7 +514,7 @@
 <section id="photo-wall" class="sld-photo-wall">
   <div class="sld-photo-wall-head">
     <p>SHOWOUT / 2026</p>
-    <h2>一些被我留下来的瞬间</h2>
+    <h2>Moments kept in frame</h2>
   </div>
   <div class="sld-floating-gallery">
     <figure class="sld-shot sld-shot-a"><img data-src="/images/photos/showout/photo-01.jpg" alt="showout photo 1"><figcaption>01</figcaption></figure>
