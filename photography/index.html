@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-22T11:19:12.638Z">
+<meta property="article:modified_time" content="2026-06-22T16:14:06.141Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -446,13 +446,13 @@ body:has(.sld-photo-stage) .content {
   margin: 0;
 }
 .sld-floating-gallery {
-  height: 1900px;
+  height: 2550px;
   left: 50%;
   position: absolute;
   top: 50%;
   transform: translate(calc(-50% + var(--pan-x, 0px)), calc(-50% + var(--pan-y, 0px)));
   transition: transform .12s linear;
-  width: 2200px;
+  width: 1940px;
   z-index: 3;
 }
 .sld-shot {
@@ -483,22 +483,41 @@ body:has(.sld-photo-stage) .content {
   margin-top: 8px;
   text-align: right;
 }
-.sld-shot-a { height: 410px; left: 60px; top: 470px; width: 320px; }
-.sld-shot-b { height: 500px; left: 690px; top: 150px; width: 380px; }
-.sld-shot-c { height: 420px; left: 1740px; top: 90px; width: 320px; }
-.sld-shot-d { height: 400px; left: 1450px; top: 560px; width: 450px; }
-.sld-shot-e { height: 500px; left: 470px; top: 850px; width: 380px; }
-.sld-shot-f { height: 390px; left: 980px; top: 930px; width: 350px; }
-.sld-shot-g { height: 480px; left: 1780px; top: 1020px; width: 390px; }
-.sld-shot-h { height: 360px; left: 960px; top: 1320px; width: 430px; }
-.sld-shot-i { height: 470px; left: 40px; top: 1120px; width: 340px; }
-.sld-shot-j { height: 470px; left: 1500px; top: 1220px; width: 360px; }
-.sld-shot-k { height: 360px; left: 1600px; top: 1470px; width: 440px; }
-.sld-shot-l { height: 330px; left: 1470px; top: 300px; width: 290px; }
-.sld-shot-m { height: 330px; left: 500px; top: 430px; width: 270px; }
-.sld-shot-n { height: 340px; left: 320px; top: 1310px; width: 290px; }
-.sld-shot-o { height: 320px; left: 1330px; top: 930px; width: 290px; }
-.sld-shot-p { height: 340px; left: 1060px; top: 500px; width: 270px; }
+.sld-shot-a,
+.sld-shot-b,
+.sld-shot-c,
+.sld-shot-d,
+.sld-shot-e,
+.sld-shot-f,
+.sld-shot-g,
+.sld-shot-h,
+.sld-shot-i,
+.sld-shot-j,
+.sld-shot-k,
+.sld-shot-l,
+.sld-shot-m,
+.sld-shot-n,
+.sld-shot-o,
+.sld-shot-p {
+  height: 430px;
+  width: 320px;
+}
+.sld-shot-a { left: 80px; top: 220px; }
+.sld-shot-b { left: 560px; top: 110px; }
+.sld-shot-c { left: 1040px; top: 240px; }
+.sld-shot-d { left: 1520px; top: 130px; }
+.sld-shot-e { left: 300px; top: 800px; }
+.sld-shot-f { left: 780px; top: 690px; }
+.sld-shot-g { left: 1260px; top: 820px; }
+.sld-shot-h { left: 80px; top: 1370px; }
+.sld-shot-i { left: 560px; top: 1260px; }
+.sld-shot-j { left: 1040px; top: 1390px; }
+.sld-shot-k { left: 1520px; top: 1280px; }
+.sld-shot-l { left: 300px; top: 1950px; }
+.sld-shot-m { left: 780px; top: 1840px; }
+.sld-shot-n { left: 1260px; top: 1970px; }
+.sld-shot-o { left: 80px; top: 2050px; }
+.sld-shot-p { left: 1520px; top: 1870px; }
 @media (max-width: 767px) {
   .sld-photo-stage { min-height: 760px; padding: 84px 20px 36px; }
   .sld-photo-stage::before { font-size: 76px; left: 50%; top: 120px; }
@@ -547,7 +566,7 @@ body:has(.sld-photo-stage) .content {
   });
 
   let x = 0;
-  let y = 220;
+  let y = 420;
   let vx = -0.12;
   let vy = -0.05;
 
