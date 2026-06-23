@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-23T15:08:35.789Z">
+<meta property="article:modified_time" content="2026-06-23T15:40:52.127Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -553,25 +553,9 @@ body:has(.sld-photo-stage) .main-inner {
 .sld-shot-n,
 .sld-shot-o,
 .sld-shot-p {
-  height: 360px;
-  width: 260px;
+  height: 330px;
+  width: 248px;
 }
-.sld-shot-a { left: 180px; top: 420px; }
-.sld-shot-b { left: 560px; top: 560px; }
-.sld-shot-c { left: 940px; top: 420px; }
-.sld-shot-d { left: 1320px; top: 560px; }
-.sld-shot-e { left: 180px; top: 940px; }
-.sld-shot-f { left: 560px; top: 1080px; }
-.sld-shot-g { left: 940px; top: 940px; }
-.sld-shot-h { left: 1320px; top: 1080px; }
-.sld-shot-i { left: 180px; top: 1460px; }
-.sld-shot-j { left: 560px; top: 1600px; }
-.sld-shot-k { left: 940px; top: 1460px; }
-.sld-shot-l { left: 1320px; top: 1600px; }
-.sld-shot-m { left: 180px; top: 1980px; }
-.sld-shot-n { left: 560px; top: 2120px; }
-.sld-shot-o { left: 940px; top: 1980px; }
-.sld-shot-p { left: 1320px; top: 2120px; }
 .sld-drag-frame {
   color: #111;
   font-size: 32px;
@@ -595,14 +579,14 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 }
 .sld-drag-frame.top span,
 .sld-drag-frame.bottom span {
-  animation: sld-drag-x 7s linear infinite;
+  animation: sld-drag-x 2.6s linear infinite;
 }
 .sld-drag-frame.bottom span {
   animation-direction: reverse;
 }
 .sld-drag-frame.left span,
 .sld-drag-frame.right span {
-  animation: sld-drag-y-left 7s linear infinite;
+  animation: sld-drag-y-left 2.6s linear infinite;
 }
 .sld-drag-frame.right span {
   animation-name: sld-drag-y-right;
@@ -661,13 +645,16 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   background: #f3f3f3;
 }
 .sld-focus-view {
+  align-items: center;
   background:
     radial-gradient(circle at center, rgba(32, 239, 57, .08), transparent 45%),
-    rgba(8, 9, 10, .97);
+    rgba(15, 15, 15, .98);
   cursor: zoom-out;
-  display: block;
+  display: flex;
   inset: 0;
+  justify-content: center;
   opacity: 0;
+  padding: 32px;
   pointer-events: none;
   position: fixed;
   transition: opacity .28s ease;
@@ -724,19 +711,21 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   align-items: center;
   display: flex;
   flex-direction: column;
-  left: 0;
+  gap: 18px;
   margin: 0;
-  position: fixed;
-  top: 0;
+  max-height: calc(100vh - 64px);
+  max-width: min(94vw, 1680px);
+  position: relative;
   z-index: 3;
 }
 .sld-focus-image-shell {
   align-items: center;
+  background: transparent;
+  border-radius: 18px;
   display: flex;
   justify-content: center;
-  border-radius: 18px;
-  height: 100%;
-  overflow: hidden;
+  max-height: calc(100vh - 180px);
+  max-width: 100%;
   width: 100%;
 }
 .sld-focus-image {
@@ -744,15 +733,12 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   display: block;
   height: auto;
   max-height: calc(100vh - 180px);
-  max-width: calc(100vw - 72px);
+  max-width: min(94vw, 1680px);
   object-fit: contain;
   width: auto;
 }
 .sld-focus-meta {
-  left: 0;
   opacity: 0;
-  position: absolute;
-  top: calc(100% + 18px);
   transition: opacity .2s ease;
   width: min(420px, 80vw);
 }
@@ -803,6 +789,8 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   .sld-floating-gallery { display: grid; gap: 16px; height: auto; padding: 0 18px; width: auto; }
   .sld-shot { height: auto !important; left: auto !important; position: relative; right: auto !important; top: auto !important; width: auto !important; }
   .sld-shot img { aspect-ratio: 4 / 3; }
+  .sld-focus-view { padding: 18px; }
+  .sld-focus-image { max-height: calc(100vh - 140px); max-width: calc(100vw - 36px); }
   .sld-drag-frame { display: none; }
 }
 </style>
@@ -857,13 +845,34 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       img.removeAttribute('data-src');
     });
 
-    const canvasWidth = 1920;
-    const canvasHeight = 2860;
+    const canvasWidth = 1560;
+    const canvasHeight = 2360;
     gallery.style.width = canvasWidth + 'px';
     gallery.style.height = canvasHeight + 'px';
 
-    let x = Math.max((window.innerWidth - canvasWidth) / 2, window.innerWidth - canvasWidth - 80);
-    let y = 100;
+    const shots = Array.from(gallery.querySelectorAll('.sld-shot'));
+    const columns = 4;
+    const startX = 120;
+    const startY = 320;
+    const cardWidth = 248;
+    const cardHeight = 330;
+    const gapX = 110;
+    const gapY = 110;
+    const rowStep = cardHeight + gapY;
+    const colStep = cardWidth + gapX;
+    const staggerOffsets = [0, 120, 40, 160];
+
+    shots.forEach(function(shot, index) {
+      const row = Math.floor(index / columns);
+      const col = index % columns;
+      const left = startX + col * colStep;
+      const top = startY + row * rowStep + staggerOffsets[col];
+      shot.style.left = left + 'px';
+      shot.style.top = top + 'px';
+    });
+
+    let x = (window.innerWidth - canvasWidth) / 2;
+    let y = 90;
     let vx = 0;
     let vy = 0;
     let pointerDown = false;
@@ -877,7 +886,9 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 
     const focusView = document.querySelector('.sld-focus-view');
     if (!focusView) return;
-    const focusFigure = focusView.querySelector('.sld-focus-figure');
+    if (focusView.parentNode !== document.body) {
+      document.body.appendChild(focusView);
+    }
     const focusImage = focusView.querySelector('.sld-focus-image');
     const focusMeta = focusView.querySelector('.sld-focus-meta');
     const focusTitle = focusMeta.querySelector('h3');
@@ -929,29 +940,6 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       render();
     }
 
-    function getFocusRect(img) {
-      const naturalWidth = img.naturalWidth || img.width || 1;
-      const naturalHeight = img.naturalHeight || img.height || 1;
-      const maxWidth = window.innerWidth - 72;
-      const maxHeight = window.innerHeight - 180;
-      const scale = Math.min(maxWidth / naturalWidth, maxHeight / naturalHeight, 1);
-      const width = naturalWidth * scale;
-      const height = naturalHeight * scale;
-      return {
-        left: (window.innerWidth - width) / 2,
-        top: (window.innerHeight - height) / 2 - 36,
-        width: width,
-        height: height
-      };
-    }
-
-    function applyFocusRect(rect) {
-      focusFigure.style.left = rect.left + 'px';
-      focusFigure.style.top = rect.top + 'px';
-      focusFigure.style.width = rect.width + 'px';
-      focusFigure.style.height = rect.height + 'px';
-    }
-
     function openPhoto(shot) {
       const img = shot.querySelector('img');
       if (!img || focusOpen) return;
@@ -965,10 +953,6 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       focusDate.textContent = shot.dataset.date || '+ 2026.04 +';
       document.body.classList.add('sld-lightbox-open');
       focusView.classList.add('is-open');
-
-      const targetRect = getFocusRect(img);
-      focusFigure.style.transition = 'none';
-      applyFocusRect(targetRect);
       requestAnimationFrame(function() {
         focusMeta.classList.add('is-visible');
       });
@@ -1074,12 +1058,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       closePhoto();
     });
 
-    window.addEventListener('resize', function() {
-      if (focusOpen && activeShot) {
-        const img = activeShot.querySelector('img');
-        if (img) applyFocusRect(getFocusRect(img));
-      }
-    });
+    window.addEventListener('resize', render);
 
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape' && focusOpen) {
