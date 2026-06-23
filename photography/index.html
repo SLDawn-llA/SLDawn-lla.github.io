@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-23T08:48:49.786Z">
+<meta property="article:modified_time" content="2026-06-23T08:57:54.429Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -646,32 +646,110 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 .sld-page-top:hover {
   background: #f3f3f3;
 }
-.sld-lightbox {
-  align-items: center;
+.sld-focus-view {
   background:
     radial-gradient(circle at center, rgba(32, 239, 57, .08), transparent 45%),
     rgba(8, 9, 10, .97);
   cursor: zoom-out;
-  display: none;
   inset: 0;
-  justify-content: center;
-  padding: 36px;
+  opacity: 0;
+  pointer-events: none;
   position: fixed;
+  transition: opacity .28s ease;
   z-index: 20000;
 }
-.sld-lightbox.is-open {
-  display: flex;
+.sld-focus-view.is-open {
+  opacity: 1;
+  pointer-events: auto;
 }
-.sld-lightbox img {
+.sld-focus-logo {
+  align-items: center;
+  border: 2px solid rgba(255, 255, 255, .96);
+  border-radius: 50%;
+  color: #fff !important;
+  cursor: pointer;
+  display: flex;
+  font-size: 18px;
+  font-weight: 900;
+  height: 54px;
+  justify-content: center;
+  left: 28px;
+  position: absolute;
+  text-decoration: none;
+  top: 24px;
+  width: 54px;
+  z-index: 2;
+}
+.sld-focus-logo:hover {
+  background: #20ef39;
+  border-color: #20ef39;
+  color: #111 !important;
+}
+.sld-focus-close {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, .84);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .18em;
+  padding: 10px 14px;
+  position: absolute;
+  right: 28px;
+  text-transform: uppercase;
+  top: 24px;
+  z-index: 2;
+}
+.sld-focus-close:hover {
+  border-color: #20ef39;
+  color: #20ef39;
+}
+.sld-focus-figure {
+  left: 0;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  z-index: 3;
+}
+.sld-focus-image-shell {
+  border-radius: 18px;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+.sld-focus-image {
   background: transparent !important;
-  border-radius: 14px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, .42);
   display: block;
-  height: auto !important;
-  max-height: calc(100vh - 72px) !important;
-  max-width: calc(100vw - 72px) !important;
-  object-fit: contain !important;
-  width: auto !important;
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
+}
+.sld-focus-meta {
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: calc(100% + 18px);
+  transition: opacity .2s ease;
+  width: min(420px, 80vw);
+}
+.sld-focus-meta.is-visible {
+  opacity: 1;
+}
+.sld-focus-meta h3 {
+  color: #20ef39;
+  font-size: clamp(30px, 4vw, 54px);
+  line-height: .94;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+.sld-focus-meta p {
+  color: rgba(255, 255, 255, .88);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .22em;
+  margin: 0;
+  text-transform: uppercase;
 }
 @media (max-width: 767px) {
   .sld-photo-stage { min-height: 760px; padding: 84px 20px 36px; }
@@ -724,24 +802,6 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     });
   }
 
-  function openPhoto(src, alt) {
-    let box = document.querySelector('.sld-lightbox');
-    if (!box) {
-      box = document.createElement('div');
-      box.className = 'sld-lightbox';
-      box.innerHTML = '<img alt="">';
-      document.body.appendChild(box);
-      box.addEventListener('click', function() {
-        box.classList.remove('is-open');
-        document.body.classList.remove('sld-lightbox-open');
-      });
-    }
-    box.querySelector('img').src = src;
-    box.querySelector('img').alt = alt || '';
-    document.body.classList.add('sld-lightbox-open');
-    box.classList.add('is-open');
-  }
-
   function initPhotoWall() {
     const wall = document.querySelector('.sld-photo-wall');
     const gallery = document.querySelector('.sld-floating-gallery');
@@ -790,10 +850,35 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     let y = 0;
     let vx = -0.2;
     let vy = -0.08;
+    let pointerDown = false;
     let dragging = false;
     let didDrag = false;
+    let activePointerId = null;
     let lastX = 0;
     let lastY = 0;
+    let activeShot = null;
+    let focusOpen = false;
+
+    let focusView = document.querySelector('.sld-focus-view');
+    if (!focusView) {
+      focusView = document.createElement('div');
+      focusView.className = 'sld-focus-view';
+      focusView.innerHTML = '' +
+        '<a class="sld-focus-logo" href="/">SD</a>' +
+        '<button class="sld-focus-close" type="button">CLOSE</button>' +
+        '<figure class="sld-focus-figure">' +
+          '<div class="sld-focus-image-shell"><img class="sld-focus-image" alt=""></div>' +
+          '<figcaption class="sld-focus-meta"><h3></h3><p></p></figcaption>' +
+        '</figure>';
+      document.body.appendChild(focusView);
+    }
+
+    const focusFigure = focusView.querySelector('.sld-focus-figure');
+    const focusImage = focusView.querySelector('.sld-focus-image');
+    const focusMeta = focusView.querySelector('.sld-focus-meta');
+    const focusTitle = focusMeta.querySelector('h3');
+    const focusDate = focusMeta.querySelector('p');
+    const focusClose = focusView.querySelector('.sld-focus-close');
 
     function wrap(value, size) {
       return ((value + size / 2) % size + size) % size - size / 2;
@@ -830,40 +915,124 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       render();
     }
 
+    function getFocusRect(img) {
+      const naturalWidth = img.naturalWidth || img.width || 1;
+      const naturalHeight = img.naturalHeight || img.height || 1;
+      const maxWidth = Math.min(window.innerWidth * 0.78, 1320);
+      const maxHeight = Math.min(window.innerHeight * 0.70, 860);
+      const scale = Math.min(maxWidth / naturalWidth, maxHeight / naturalHeight, 1);
+      const width = naturalWidth * scale;
+      const height = naturalHeight * scale;
+      return {
+        left: (window.innerWidth - width) / 2,
+        top: (window.innerHeight - height) / 2 - 24,
+        width: width,
+        height: height
+      };
+    }
+
+    function applyFocusRect(rect) {
+      focusFigure.style.left = rect.left + 'px';
+      focusFigure.style.top = rect.top + 'px';
+      focusFigure.style.width = rect.width + 'px';
+      focusFigure.style.height = rect.height + 'px';
+    }
+
+    function openPhoto(shot) {
+      const img = shot.querySelector('img');
+      if (!img || focusOpen) return;
+
+      activeShot = shot;
+      focusOpen = true;
+      focusMeta.classList.remove('is-visible');
+      focusImage.src = img.currentSrc || img.src;
+      focusImage.alt = img.alt || '';
+      focusTitle.textContent = shot.dataset.title || img.alt || 'Selected Work';
+      focusDate.textContent = shot.dataset.date || '+ 2026.04 +';
+      document.body.classList.add('sld-lightbox-open');
+      focusView.classList.add('is-open');
+
+      const startRect = img.getBoundingClientRect();
+      const targetRect = getFocusRect(img);
+
+      focusFigure.style.transition = 'none';
+      applyFocusRect(startRect);
+
+      requestAnimationFrame(function() {
+        focusFigure.style.transition = 'left .42s cubic-bezier(.4,0,.2,1), top .42s cubic-bezier(.4,0,.2,1), width .42s cubic-bezier(.4,0,.2,1), height .42s cubic-bezier(.4,0,.2,1)';
+        applyFocusRect(targetRect);
+        setTimeout(function() {
+          focusMeta.classList.add('is-visible');
+        }, 220);
+      });
+    }
+
+    function closePhoto() {
+      if (!focusOpen || !activeShot) return;
+      const img = activeShot.querySelector('img');
+      const endRect = img ? img.getBoundingClientRect() : {
+        left: window.innerWidth / 2,
+        top: window.innerHeight / 2,
+        width: 0,
+        height: 0
+      };
+
+      focusMeta.classList.remove('is-visible');
+      focusFigure.style.transition = 'left .36s cubic-bezier(.4,0,.2,1), top .36s cubic-bezier(.4,0,.2,1), width .36s cubic-bezier(.4,0,.2,1), height .36s cubic-bezier(.4,0,.2,1)';
+      applyFocusRect(endRect);
+
+      setTimeout(function() {
+        focusView.classList.remove('is-open');
+        document.body.classList.remove('sld-lightbox-open');
+        activeShot = null;
+        focusOpen = false;
+      }, 380);
+    }
+
     wall.addEventListener('pointerdown', function(event) {
+      if (focusOpen) return;
       if (event.button !== 0) return;
       if (event.target.closest('.sld-shot')) return;
-      dragging = true;
+      pointerDown = true;
       didDrag = false;
+      dragging = false;
+      activePointerId = event.pointerId;
       lastX = event.clientX;
       lastY = event.clientY;
-      wall.classList.add('is-dragging');
       wall.setPointerCapture(event.pointerId);
     });
 
     wall.addEventListener('pointermove', function(event) {
+      if (!pointerDown || event.pointerId !== activePointerId || focusOpen) return;
+      if (!dragging && Math.abs(event.clientX - lastX) + Math.abs(event.clientY - lastY) > 4) {
+        dragging = true;
+        wall.classList.add('is-dragging');
+      }
       if (!dragging) return;
       event.preventDefault();
       dragTo(event.clientX, event.clientY);
     });
 
-    wall.addEventListener('pointerup', function(event) {
+    function finishPointer(event) {
+      if (activePointerId !== null && event.pointerId === activePointerId) {
+        try { wall.releasePointerCapture(event.pointerId); } catch (error) {}
+      }
+      pointerDown = false;
+      activePointerId = null;
       dragging = false;
       wall.classList.remove('is-dragging');
-      try { wall.releasePointerCapture(event.pointerId); } catch (error) {}
-    });
+    }
+
+    wall.addEventListener('pointerup', finishPointer);
 
     wall.addEventListener('click', function(event) {
-      const img = event.target.closest('.sld-shot img');
-      if (!img || didDrag) return;
+      const shot = event.target.closest('.sld-shot');
+      if (!shot || didDrag || focusOpen) return;
       event.preventDefault();
-      openPhoto(img.currentSrc || img.src, img.alt);
+      openPhoto(shot);
     });
 
-    wall.addEventListener('pointercancel', function() {
-      dragging = false;
-      wall.classList.remove('is-dragging');
-    });
+    wall.addEventListener('pointercancel', finishPointer);
 
     const topButton = document.querySelector('.sld-page-top');
     if (topButton) {
@@ -898,6 +1067,31 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     window.addEventListener('wheel', function(event) {
       if (event.ctrlKey) event.preventDefault();
     }, { passive: false });
+
+    focusView.addEventListener('click', function(event) {
+      if (event.target === focusView || event.target.closest('.sld-focus-figure') || event.target.closest('.sld-focus-close')) {
+        event.preventDefault();
+        closePhoto();
+      }
+    });
+
+    focusClose.addEventListener('click', function(event) {
+      event.preventDefault();
+      closePhoto();
+    });
+
+    window.addEventListener('resize', function() {
+      if (focusOpen && activeShot) {
+        const img = activeShot.querySelector('img');
+        if (img) applyFocusRect(getFocusRect(img));
+      }
+    });
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && focusOpen) {
+        closePhoto();
+      }
+    });
 
     document.querySelectorAll('.sld-photo-stack a').forEach(function(link) {
       link.addEventListener('click', function(event) {
@@ -937,22 +1131,22 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     <h2>Moments kept in frame</h2>
   </div>
   <div class="sld-floating-gallery">
-    <figure id="photo-01" class="sld-shot sld-shot-a"><img data-src="/images/photos/showout/photo-01.jpg" alt="showout photo 1"><figcaption>01</figcaption></figure>
-    <figure id="photo-02" class="sld-shot sld-shot-b"><img data-src="/images/photos/showout/photo-02.jpg" alt="showout photo 2"><figcaption>02</figcaption></figure>
-    <figure id="photo-03" class="sld-shot sld-shot-c"><img data-src="/images/photos/showout/photo-03.jpg" alt="showout photo 3"><figcaption>03</figcaption></figure>
-    <figure id="photo-04" class="sld-shot sld-shot-d"><img data-src="/images/photos/showout/photo-04.jpg" alt="showout photo 4"><figcaption>04</figcaption></figure>
-    <figure class="sld-shot sld-shot-e"><img data-src="/images/photos/showout/photo-05.jpg" alt="showout photo 5"><figcaption>05</figcaption></figure>
-    <figure class="sld-shot sld-shot-f"><img data-src="/images/photos/showout/photo-06.jpg" alt="showout photo 6"><figcaption>06</figcaption></figure>
-    <figure class="sld-shot sld-shot-g"><img data-src="/images/photos/showout/photo-07.jpg" alt="showout photo 7"><figcaption>07</figcaption></figure>
-    <figure class="sld-shot sld-shot-h"><img data-src="/images/photos/showout/photo-08.jpg" alt="showout photo 8"><figcaption>08</figcaption></figure>
-    <figure class="sld-shot sld-shot-i"><img data-src="/images/photos/showout/photo-09.jpg" alt="showout photo 9"><figcaption>09</figcaption></figure>
-    <figure class="sld-shot sld-shot-j"><img data-src="/images/photos/showout/photo-10.jpg" alt="showout photo 10"><figcaption>10</figcaption></figure>
-    <figure class="sld-shot sld-shot-k"><img data-src="/images/photos/showout/photo-11.jpg" alt="showout photo 11"><figcaption>11</figcaption></figure>
-    <figure class="sld-shot sld-shot-l"><img data-src="/images/photos/showout/photo-12.jpg" alt="showout photo 12"><figcaption>12</figcaption></figure>
-    <figure class="sld-shot sld-shot-m"><img data-src="/images/photos/showout/photo-13.jpg" alt="showout photo 13"><figcaption>13</figcaption></figure>
-    <figure class="sld-shot sld-shot-n"><img data-src="/images/photos/showout/photo-14.jpg" alt="showout photo 14"><figcaption>14</figcaption></figure>
-    <figure class="sld-shot sld-shot-o"><img data-src="/images/photos/showout/photo-15.jpg" alt="showout photo 15"><figcaption>15</figcaption></figure>
-    <figure class="sld-shot sld-shot-p"><img data-src="/images/photos/showout/photo-16.jpg" alt="showout photo 16"><figcaption>16</figcaption></figure>
+    <figure id="photo-01" class="sld-shot sld-shot-a" data-title="Bloom Field" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-01.jpg" alt="Bloom Field"><figcaption>01</figcaption></figure>
+    <figure id="photo-02" class="sld-shot sld-shot-b" data-title="Campus Gate" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-02.jpg" alt="Campus Gate"><figcaption>02</figcaption></figure>
+    <figure id="photo-03" class="sld-shot sld-shot-c" data-title="Spring Branch" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-03.jpg" alt="Spring Branch"><figcaption>03</figcaption></figure>
+    <figure id="photo-04" class="sld-shot sld-shot-d" data-title="Quiet Bloom" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-04.jpg" alt="Quiet Bloom"><figcaption>04</figcaption></figure>
+    <figure class="sld-shot sld-shot-e" data-title="Warm Room" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-05.jpg" alt="Warm Room"><figcaption>05</figcaption></figure>
+    <figure class="sld-shot sld-shot-f" data-title="Petal Ground" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-06.jpg" alt="Petal Ground"><figcaption>06</figcaption></figure>
+    <figure class="sld-shot sld-shot-g" data-title="Green Light" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-07.jpg" alt="Green Light"><figcaption>07</figcaption></figure>
+    <figure class="sld-shot sld-shot-h" data-title="Roof Smoke" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-08.jpg" alt="Roof Smoke"><figcaption>08</figcaption></figure>
+    <figure class="sld-shot sld-shot-i" data-title="Branch Sketch" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-09.jpg" alt="Branch Sketch"><figcaption>09</figcaption></figure>
+    <figure class="sld-shot sld-shot-j" data-title="Blue Dome" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-10.jpg" alt="Blue Dome"><figcaption>10</figcaption></figure>
+    <figure class="sld-shot sld-shot-k" data-title="Night Curve" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-11.jpg" alt="Night Curve"><figcaption>11</figcaption></figure>
+    <figure class="sld-shot sld-shot-l" data-title="Pink Burst" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-12.jpg" alt="Pink Burst"><figcaption>12</figcaption></figure>
+    <figure class="sld-shot sld-shot-m" data-title="White Watch" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-13.jpg" alt="White Watch"><figcaption>13</figcaption></figure>
+    <figure class="sld-shot sld-shot-n" data-title="Sunset Needle" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-14.jpg" alt="Sunset Needle"><figcaption>14</figcaption></figure>
+    <figure class="sld-shot sld-shot-o" data-title="Far City" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-15.jpg" alt="Far City"><figcaption>15</figcaption></figure>
+    <figure class="sld-shot sld-shot-p" data-title="Roof Edge" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-16.jpg" alt="Roof Edge"><figcaption>16</figcaption></figure>
   </div>
   <button class="sld-page-top" type="button">TOP</button>
 </section>
