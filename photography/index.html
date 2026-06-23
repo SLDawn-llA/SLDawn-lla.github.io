@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-22T16:38:19.630Z">
+<meta property="article:modified_time" content="2026-06-23T01:24:23.172Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -418,9 +418,14 @@ body:has(.sld-photo-stage) .content {
   z-index: 4;
 }
 .sld-photo-wall {
+  cursor: grab;
   height: 100vh;
   min-height: 720px;
   padding: 0;
+  user-select: none;
+}
+.sld-photo-wall.is-dragging {
+  cursor: grabbing;
 }
 .sld-photo-wall::before {
   background-image:
@@ -446,17 +451,16 @@ body:has(.sld-photo-stage) .content {
   margin: 0;
 }
 .sld-floating-gallery {
-  height: 1980px;
+  height: 5940px;
   left: 50%;
   position: absolute;
   top: 50%;
   transform: translate(calc(-50% + var(--pan-x, 0px)), calc(-50% + var(--pan-y, 0px)));
-  transition: transform .12s linear;
-  width: 1580px;
+  width: 4740px;
   z-index: 3;
 }
 .sld-shot {
-  cursor: zoom-in;
+  cursor: inherit;
   margin: 0;
   position: absolute;
   scroll-margin-top: 120px;
@@ -464,7 +468,7 @@ body:has(.sld-photo-stage) .content {
 }
 .sld-shot:hover {
   filter: brightness(1.08);
-  transform: translateY(-8px) scale(1.02);
+  transform: scale(1.025);
 }
 .sld-shot img {
   border: 3px solid rgba(255, 255, 255, .9);
@@ -518,6 +522,45 @@ body:has(.sld-photo-stage) .content {
 .sld-shot-n { left: 1030px; top: 1510px; }
 .sld-shot-o { left: 70px; top: 1570px; }
 .sld-shot-p { left: 1225px; top: 1420px; }
+.sld-drag-frame {
+  color: #111;
+  font-size: 40px;
+  font-weight: 1000;
+  letter-spacing: 1px;
+  line-height: 1;
+  pointer-events: none;
+  position: absolute;
+  text-transform: uppercase;
+  z-index: 9;
+}
+.sld-drag-frame span {
+  display: inline-block;
+  margin: 0 28px;
+}
+.sld-drag-frame.top,
+.sld-drag-frame.bottom {
+  align-items: center;
+  background: #20ef39;
+  display: flex;
+  height: 54px;
+  left: 0;
+  overflow: hidden;
+  right: 0;
+  white-space: nowrap;
+}
+.sld-drag-frame.top { top: 0; }
+.sld-drag-frame.bottom { bottom: 0; }
+.sld-drag-frame.left,
+.sld-drag-frame.right {
+  background: #20ef39;
+  bottom: 0;
+  overflow: hidden;
+  top: 0;
+  width: 54px;
+  writing-mode: vertical-rl;
+}
+.sld-drag-frame.left { left: 0; transform: rotate(180deg); }
+.sld-drag-frame.right { right: 0; }
 @media (max-width: 767px) {
   .sld-photo-stage { min-height: 760px; padding: 84px 20px 36px; }
   .sld-photo-stage::before { font-size: 76px; left: 50%; top: 120px; }
@@ -535,6 +578,7 @@ body:has(.sld-photo-stage) .content {
   .sld-floating-gallery { display: grid; gap: 16px; height: auto; padding: 0 18px; width: auto; }
   .sld-shot { height: auto !important; left: auto !important; position: relative; right: auto !important; top: auto !important; width: auto !important; }
   .sld-shot img { aspect-ratio: 4 / 3; }
+  .sld-drag-frame { display: none; }
 }
 </style>
 
@@ -565,34 +609,97 @@ body:has(.sld-photo-stage) .content {
     img.removeAttribute('data-src');
   });
 
-  let x = 0;
-  let y = 260;
-  let vx = -0.12;
-  let vy = -0.05;
+  const tileWidth = 1580;
+  const tileHeight = 1980;
+  const baseShots = Array.from(gallery.querySelectorAll('.sld-shot')).map(function(shot) {
+    return {
+      node: shot,
+      left: parseFloat(getComputedStyle(shot).left),
+      top: parseFloat(getComputedStyle(shot).top),
+      id: shot.id || ''
+    };
+  });
 
-  function clamp() {
-    const maxX = Math.max(0, (gallery.offsetWidth - window.innerWidth) / 2);
-    const maxY = Math.max(0, (gallery.offsetHeight - window.innerHeight) / 2);
-    x = Math.max(-maxX, Math.min(maxX, x));
-    y = Math.max(-maxY, Math.min(maxY, y));
+  gallery.innerHTML = '';
+  baseShots.forEach(function(item) {
+    for (let row = -1; row <= 1; row += 1) {
+      for (let col = -1; col <= 1; col += 1) {
+        const clone = item.node.cloneNode(true);
+        clone.style.left = (item.left + (col + 1) * tileWidth) + 'px';
+        clone.style.top = (item.top + (row + 1) * tileHeight) + 'px';
+        if (row !== 0 || col !== 0) clone.removeAttribute('id');
+        gallery.appendChild(clone);
+      }
+    }
+  });
+
+  let x = 0;
+  let y = 0;
+  let vx = -0.2;
+  let vy = -0.08;
+  let dragging = false;
+  let lastX = 0;
+  let lastY = 0;
+
+  function wrap(value, size) {
+    return ((value + size / 2) % size + size) % size - size / 2;
   }
 
   function render() {
-    clamp();
-    gallery.style.setProperty('--pan-x', x.toFixed(1) + 'px');
-    gallery.style.setProperty('--pan-y', y.toFixed(1) + 'px');
+    gallery.style.setProperty('--pan-x', wrap(x, tileWidth).toFixed(1) + 'px');
+    gallery.style.setProperty('--pan-y', wrap(y, tileHeight).toFixed(1) + 'px');
   }
 
   function tick() {
-    x += vx;
-    y += vy;
-    const maxX = Math.max(0, (gallery.offsetWidth - window.innerWidth) / 2);
-    const maxY = Math.max(0, (gallery.offsetHeight - window.innerHeight) / 2);
-    if (Math.abs(x) >= maxX) vx *= -1;
-    if (Math.abs(y) >= maxY) vy *= -1;
+    if (!dragging) {
+      x += vx;
+      y += vy;
+      vx *= .992;
+      vy *= .992;
+      if (Math.abs(vx) < .04) vx = -0.2;
+      if (Math.abs(vy) < .02) vy = -0.08;
+    }
     render();
     requestAnimationFrame(tick);
   }
+
+  function dragTo(clientX, clientY) {
+    const dx = clientX - lastX;
+    const dy = clientY - lastY;
+    x += dx;
+    y += dy;
+    vx = dx * .14;
+    vy = dy * .14;
+    lastX = clientX;
+    lastY = clientY;
+    render();
+  }
+
+  wall.addEventListener('pointerdown', function(event) {
+    if (event.button !== 0) return;
+    dragging = true;
+    lastX = event.clientX;
+    lastY = event.clientY;
+    wall.classList.add('is-dragging');
+    wall.setPointerCapture(event.pointerId);
+  });
+
+  wall.addEventListener('pointermove', function(event) {
+    if (!dragging) return;
+    event.preventDefault();
+    dragTo(event.clientX, event.clientY);
+  });
+
+  wall.addEventListener('pointerup', function(event) {
+    dragging = false;
+    wall.classList.remove('is-dragging');
+    try { wall.releasePointerCapture(event.pointerId); } catch (error) {}
+  });
+
+  wall.addEventListener('pointercancel', function() {
+    dragging = false;
+    wall.classList.remove('is-dragging');
+  });
 
   wall.addEventListener('wheel', function(event) {
     if (event.ctrlKey) {
@@ -602,8 +709,8 @@ body:has(.sld-photo-stage) .content {
     event.preventDefault();
     x -= event.deltaX || event.deltaY;
     y -= event.shiftKey ? 0 : event.deltaY * .45;
-    vx = Math.sign(-(event.deltaX || event.deltaY)) * .12 || vx;
-    vy = Math.sign(-event.deltaY) * .05 || vy;
+    vx = Math.sign(-(event.deltaX || event.deltaY)) * .2 || vx;
+    vy = Math.sign(-event.deltaY) * .08 || vy;
     render();
   }, { passive: false });
 
@@ -632,6 +739,10 @@ body:has(.sld-photo-stage) .content {
 </script>
 
 <section id="photo-wall" class="sld-photo-wall">
+  <div class="sld-drag-frame top"><span>DRAG ←</span><span>DRAG ←</span><span>DRAG ←</span><span>DRAG ←</span><span>DRAG ←</span><span>DRAG ←</span></div>
+  <div class="sld-drag-frame right"><span>DRAG ↓</span><span>DRAG ↓</span><span>DRAG ↓</span><span>DRAG ↓</span></div>
+  <div class="sld-drag-frame bottom"><span>→ DRAG</span><span>→ DRAG</span><span>→ DRAG</span><span>→ DRAG</span><span>→ DRAG</span><span>→ DRAG</span></div>
+  <div class="sld-drag-frame left"><span>DRAG ↑</span><span>DRAG ↑</span><span>DRAG ↑</span><span>DRAG ↑</span></div>
   <div class="sld-photo-wall-head">
     <p>SHOWOUT / 2026</p>
     <h2>Moments kept in frame</h2>
