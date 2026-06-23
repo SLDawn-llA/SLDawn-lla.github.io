@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-23T01:40:17.598Z">
+<meta property="article:modified_time" content="2026-06-23T02:00:45.446Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -234,7 +234,8 @@ body:has(.sld-photo-stage) .footer {
   display: none !important;
 }
 body:has(.sld-photo-stage) .header {
-  background: #151515 !important;
+  background:
+    linear-gradient(90deg, #10291d 0 22vw, #151515 22vw calc(100% - 22vw), #10291d calc(100% - 22vw) 100%) !important;
   border-bottom: 1px solid rgba(255, 255, 255, .08) !important;
   backdrop-filter: blur(14px);
   overflow: hidden;
@@ -243,7 +244,8 @@ body:has(.sld-photo-stage) .header {
 body:has(.sld-photo-stage) .header::before {
   align-items: center;
   background:
-    linear-gradient(135deg, rgba(32, 239, 57, .34), transparent 72%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, .08) 0 1px, transparent 1px 18px),
+    linear-gradient(135deg, rgba(32, 239, 57, .38), transparent 72%),
     #151515;
   color: rgba(255, 255, 255, .82);
   content: "PHOTO / SHOWOUT";
@@ -258,9 +260,17 @@ body:has(.sld-photo-stage) .header::before {
 }
 body:has(.sld-photo-stage) .header::after {
   background:
-    linear-gradient(45deg, transparent 0 48%, #151515 48% 52%, transparent 52%),
-    #f3f3f3;
-  content: "";
+    linear-gradient(135deg, transparent 0 36%, rgba(32, 239, 57, .28) 36% 43%, transparent 43%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, .08) 0 1px, transparent 1px 18px),
+    #151515;
+  color: rgba(255, 255, 255, .78);
+  content: "VISUAL ARCHIVE";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 1000;
+  letter-spacing: 3px;
   inset: 0 0 0 auto;
   position: absolute;
   width: 24vw;
@@ -303,7 +313,7 @@ body:has(.sld-photo-stage) .main-inner {
   background: #151515;
   color: #f3f3f3;
   left: auto;
-  margin-left: calc(50% - 50vw);
+  margin-left: var(--sld-fullbleed-x, 0px);
   overflow: hidden;
   position: relative;
   width: 100vw;
@@ -515,16 +525,16 @@ body:has(.sld-photo-stage) .main-inner {
   margin: 0;
 }
 .sld-floating-gallery {
-  height: 5940px;
+  height: 6540px;
   left: 50%;
   position: absolute;
   top: 50%;
   transform: translate(calc(-50% + var(--pan-x, 0px)), calc(-50% + var(--pan-y, 0px)));
-  width: 4740px;
+  width: 5520px;
   z-index: 3;
 }
 .sld-shot {
-  cursor: inherit;
+  cursor: zoom-in;
   margin: 0;
   position: absolute;
   scroll-margin-top: 120px;
@@ -567,28 +577,28 @@ body:has(.sld-photo-stage) .main-inner {
 .sld-shot-n,
 .sld-shot-o,
 .sld-shot-p {
-  height: 335px;
-  width: 250px;
+  height: 360px;
+  width: 260px;
 }
-.sld-shot-a { left: 70px; top: 170px; }
-.sld-shot-b { left: 455px; top: 80px; }
-.sld-shot-c { left: 840px; top: 180px; }
-.sld-shot-d { left: 1225px; top: 95px; }
-.sld-shot-e { left: 260px; top: 610px; }
-.sld-shot-f { left: 645px; top: 520px; }
-.sld-shot-g { left: 1030px; top: 630px; }
-.sld-shot-h { left: 70px; top: 1050px; }
-.sld-shot-i { left: 455px; top: 960px; }
-.sld-shot-j { left: 840px; top: 1070px; }
-.sld-shot-k { left: 1225px; top: 980px; }
-.sld-shot-l { left: 260px; top: 1490px; }
-.sld-shot-m { left: 645px; top: 1400px; }
-.sld-shot-n { left: 1030px; top: 1510px; }
-.sld-shot-o { left: 70px; top: 1570px; }
-.sld-shot-p { left: 1225px; top: 1420px; }
+.sld-shot-a { height: 380px; left: 90px; top: 170px; width: 280px; }
+.sld-shot-b { height: 430px; left: 530px; top: 70px; width: 310px; }
+.sld-shot-c { height: 330px; left: 980px; top: 210px; width: 250px; }
+.sld-shot-d { height: 410px; left: 1370px; top: 110px; width: 300px; }
+.sld-shot-e { height: 440px; left: 300px; top: 680px; width: 330px; }
+.sld-shot-f { height: 330px; left: 780px; top: 610px; width: 340px; }
+.sld-shot-g { height: 410px; left: 1240px; top: 730px; width: 300px; }
+.sld-shot-h { height: 400px; left: 80px; top: 1160px; width: 300px; }
+.sld-shot-i { height: 330px; left: 560px; top: 1120px; width: 370px; }
+.sld-shot-j { height: 430px; left: 1060px; top: 1210px; width: 310px; }
+.sld-shot-k { height: 360px; left: 1480px; top: 1080px; width: 300px; }
+.sld-shot-l { height: 320px; left: 280px; top: 1620px; width: 250px; }
+.sld-shot-m { height: 340px; left: 720px; top: 1540px; width: 280px; }
+.sld-shot-n { height: 390px; left: 1160px; top: 1680px; width: 300px; }
+.sld-shot-o { height: 330px; left: 60px; top: 1780px; width: 340px; }
+.sld-shot-p { height: 330px; left: 1500px; top: 1580px; width: 250px; }
 .sld-drag-frame {
   color: #111;
-  font-size: 34px;
+  font-size: 32px;
   font-weight: 1000;
   letter-spacing: 1px;
   line-height: 1;
@@ -597,7 +607,7 @@ body:has(.sld-photo-stage) .main-inner {
   position: absolute;
   text-transform: uppercase;
   transition: opacity .18s ease;
-  z-index: 9;
+  z-index: 12;
 }
 html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 .sld-photo-wall.is-dragging .sld-drag-frame {
@@ -605,17 +615,17 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 }
 .sld-drag-frame span {
   display: inline-block;
-  margin: 0 26px;
+  margin: 0 24px;
 }
 .sld-drag-frame.top,
 .sld-drag-frame.bottom {
   align-items: center;
   background: #20ef39;
   display: flex;
-  height: 48px;
-  left: 48px;
+  height: 50px;
+  left: 0;
   overflow: hidden;
-  right: 48px;
+  right: 0;
   white-space: nowrap;
 }
 .sld-drag-frame.top { top: 0; }
@@ -623,14 +633,24 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 .sld-drag-frame.left,
 .sld-drag-frame.right {
   background: #20ef39;
-  bottom: 48px;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   overflow: hidden;
-  top: 48px;
-  width: 48px;
-  writing-mode: vertical-rl;
+  top: 0;
+  width: 50px;
 }
-.sld-drag-frame.left { left: 0; transform: rotate(180deg); }
+.sld-drag-frame.left span,
+.sld-drag-frame.right span {
+  margin: 44px 0;
+  min-width: 150px;
+  text-align: center;
+}
+.sld-drag-frame.left { left: 0; }
+.sld-drag-frame.left span { transform: rotate(-90deg); }
 .sld-drag-frame.right { right: 0; }
+.sld-drag-frame.right span { transform: rotate(90deg); }
 @media (max-width: 767px) {
   .sld-photo-stage { min-height: 760px; padding: 84px 20px 36px; }
   .sld-photo-stage::before { font-size: 76px; left: 50%; top: 120px; }
@@ -673,6 +693,30 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 (function() {
   let initRetries = 0;
 
+  function fitFullBleed() {
+    document.querySelectorAll('.sld-photo-stage, .sld-photo-wall').forEach(function(section) {
+      section.style.setProperty('--sld-fullbleed-x', '0px');
+      const left = section.getBoundingClientRect().left;
+      section.style.setProperty('--sld-fullbleed-x', (-left).toFixed(1) + 'px');
+    });
+  }
+
+  function openPhoto(src, alt) {
+    let box = document.querySelector('.sld-lightbox');
+    if (!box) {
+      box = document.createElement('div');
+      box.className = 'sld-lightbox';
+      box.innerHTML = '<img alt="">';
+      document.body.appendChild(box);
+      box.addEventListener('click', function() {
+        box.classList.remove('is-open');
+      });
+    }
+    box.querySelector('img').src = src;
+    box.querySelector('img').alt = alt || '';
+    box.classList.add('is-open');
+  }
+
   function initPhotoWall() {
   const wall = document.querySelector('.sld-photo-wall');
   const gallery = document.querySelector('.sld-floating-gallery');
@@ -685,14 +729,16 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   }
   if (gallery.dataset.infiniteReady === 'true') return;
   gallery.dataset.infiniteReady = 'true';
+  fitFullBleed();
+  window.addEventListener('resize', fitFullBleed);
 
   gallery.querySelectorAll('img[data-src]').forEach(function(img) {
     img.src = img.dataset.src;
     img.removeAttribute('data-src');
   });
 
-  const tileWidth = 1580;
-  const tileHeight = 1980;
+  const tileWidth = 1840;
+  const tileHeight = 2180;
   const baseShots = Array.from(gallery.querySelectorAll('.sld-shot')).map(function(shot) {
     return {
       node: shot,
@@ -720,6 +766,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   let vx = -0.2;
   let vy = -0.08;
   let dragging = false;
+  let didDrag = false;
   let lastX = 0;
   let lastY = 0;
 
@@ -748,6 +795,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   function dragTo(clientX, clientY) {
     const dx = clientX - lastX;
     const dy = clientY - lastY;
+    if (Math.abs(dx) + Math.abs(dy) > 4) didDrag = true;
     x += dx;
     y += dy;
     vx = dx * .14;
@@ -759,7 +807,9 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 
   wall.addEventListener('pointerdown', function(event) {
     if (event.button !== 0) return;
+    if (event.target.closest('.sld-shot')) return;
     dragging = true;
+    didDrag = false;
     lastX = event.clientX;
     lastY = event.clientY;
     wall.classList.add('is-dragging');
@@ -776,6 +826,13 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     dragging = false;
     wall.classList.remove('is-dragging');
     try { wall.releasePointerCapture(event.pointerId); } catch (error) {}
+  });
+
+  wall.addEventListener('click', function(event) {
+    const img = event.target.closest('.sld-shot img');
+    if (!img || didDrag) return;
+    event.preventDefault();
+    openPhoto(img.currentSrc || img.src, img.alt);
   });
 
   wall.addEventListener('pointercancel', function() {
@@ -822,16 +879,17 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initPhotoWall);
   } else {
+    fitFullBleed();
     initPhotoWall();
   }
 })();
 </script>
 
 <section id="photo-wall" class="sld-photo-wall">
-  <div class="sld-drag-frame top"><span>DRAG ←</span><span>DRAG ←</span><span>DRAG ←</span><span>DRAG ←</span><span>DRAG ←</span><span>DRAG ←</span></div>
-  <div class="sld-drag-frame right"><span>DRAG ↓</span><span>DRAG ↓</span><span>DRAG ↓</span><span>DRAG ↓</span></div>
-  <div class="sld-drag-frame bottom"><span>→ DRAG</span><span>→ DRAG</span><span>→ DRAG</span><span>→ DRAG</span><span>→ DRAG</span><span>→ DRAG</span></div>
-  <div class="sld-drag-frame left"><span>DRAG ↑</span><span>DRAG ↑</span><span>DRAG ↑</span><span>DRAG ↑</span></div>
+  <div class="sld-drag-frame top"><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span></div>
+  <div class="sld-drag-frame right"><span>DRAG &rarr;</span><span>DRAG &rarr;</span><span>DRAG &rarr;</span><span>DRAG &rarr;</span></div>
+  <div class="sld-drag-frame bottom"><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span></div>
+  <div class="sld-drag-frame left"><span>DRAG &rarr;</span><span>DRAG &rarr;</span><span>DRAG &rarr;</span><span>DRAG &rarr;</span></div>
   <div class="sld-photo-wall-head">
     <p>SHOWOUT / 2026</p>
     <h2>Moments kept in frame</h2>
