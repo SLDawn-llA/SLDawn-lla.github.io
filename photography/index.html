@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-23T01:24:23.172Z">
+<meta property="article:modified_time" content="2026-06-23T01:40:17.598Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -228,13 +228,46 @@ body:has(.sld-photo-stage) {
 body:has(.sld-photo-stage) .headband,
 body:has(.sld-photo-stage) .post-header,
 body:has(.sld-photo-stage) .sidebar,
+body:has(.sld-photo-stage) .sidebar-toggle,
+body:has(.sld-photo-stage) .back-to-top,
 body:has(.sld-photo-stage) .footer {
   display: none !important;
 }
 body:has(.sld-photo-stage) .header {
-  background: rgba(15, 15, 15, .72) !important;
+  background: #151515 !important;
   border-bottom: 1px solid rgba(255, 255, 255, .08) !important;
   backdrop-filter: blur(14px);
+  overflow: hidden;
+  position: relative;
+}
+body:has(.sld-photo-stage) .header::before {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(32, 239, 57, .34), transparent 72%),
+    #151515;
+  color: rgba(255, 255, 255, .82);
+  content: "PHOTO / SHOWOUT";
+  display: flex;
+  font-size: 12px;
+  font-weight: 1000;
+  inset: 0 auto 0 0;
+  justify-content: center;
+  letter-spacing: 3px;
+  position: absolute;
+  width: 24vw;
+}
+body:has(.sld-photo-stage) .header::after {
+  background:
+    linear-gradient(45deg, transparent 0 48%, #151515 48% 52%, transparent 52%),
+    #f3f3f3;
+  content: "";
+  inset: 0 0 0 auto;
+  position: absolute;
+  width: 24vw;
+}
+body:has(.sld-photo-stage) .header-inner {
+  position: relative;
+  z-index: 2;
 }
 body:has(.sld-photo-stage) .site-title,
 body:has(.sld-photo-stage) .menu .menu-item a {
@@ -256,12 +289,21 @@ body:has(.sld-photo-stage) .post-body {
 body:has(.sld-photo-stage) .content {
   display: block !important;
 }
+body:has(.sld-photo-stage) .container,
+body:has(.sld-photo-stage) .main {
+  padding: 0 !important;
+}
+body:has(.sld-photo-stage) .header-inner,
+body:has(.sld-photo-stage) .main-inner {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
 .sld-photo-stage,
 .sld-photo-wall {
   background: #151515;
   color: #f3f3f3;
-  left: 50%;
-  margin-left: -50vw;
+  left: auto;
+  margin-left: calc(50% - 50vw);
   overflow: hidden;
   position: relative;
   width: 100vw;
@@ -272,6 +314,28 @@ body:has(.sld-photo-stage) .content {
   justify-content: center;
   min-height: 100vh;
   padding: 0;
+}
+.sld-photo-stage .sld-corner-mark {
+  border-color: #f3f3f3 transparent transparent #f3f3f3;
+  border-style: solid;
+  border-width: 72px 0 0 72px;
+  height: 0;
+  opacity: .96;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 0;
+  z-index: 6;
+}
+.sld-photo-stage .sld-corner-mark::after {
+  color: #151515;
+  content: "SD";
+  font-size: 16px;
+  font-weight: 1000;
+  position: absolute;
+  right: 9px;
+  top: -62px;
+  transform: rotate(45deg);
 }
 .sld-photo-stage::before {
   color: transparent;
@@ -524,28 +588,34 @@ body:has(.sld-photo-stage) .content {
 .sld-shot-p { left: 1225px; top: 1420px; }
 .sld-drag-frame {
   color: #111;
-  font-size: 40px;
+  font-size: 34px;
   font-weight: 1000;
   letter-spacing: 1px;
   line-height: 1;
+  opacity: 0;
   pointer-events: none;
   position: absolute;
   text-transform: uppercase;
+  transition: opacity .18s ease;
   z-index: 9;
+}
+html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
+.sld-photo-wall.is-dragging .sld-drag-frame {
+  opacity: 1;
 }
 .sld-drag-frame span {
   display: inline-block;
-  margin: 0 28px;
+  margin: 0 26px;
 }
 .sld-drag-frame.top,
 .sld-drag-frame.bottom {
   align-items: center;
   background: #20ef39;
   display: flex;
-  height: 54px;
-  left: 0;
+  height: 48px;
+  left: 48px;
   overflow: hidden;
-  right: 0;
+  right: 48px;
   white-space: nowrap;
 }
 .sld-drag-frame.top { top: 0; }
@@ -553,10 +623,10 @@ body:has(.sld-photo-stage) .content {
 .sld-drag-frame.left,
 .sld-drag-frame.right {
   background: #20ef39;
-  bottom: 0;
+  bottom: 48px;
   overflow: hidden;
-  top: 0;
-  width: 54px;
+  top: 48px;
+  width: 48px;
   writing-mode: vertical-rl;
 }
 .sld-drag-frame.left { left: 0; transform: rotate(180deg); }
@@ -584,6 +654,7 @@ body:has(.sld-photo-stage) .content {
 
 <section class="sld-photo-stage">
   <a class="sld-photo-logo" href="/">SD</a>
+  <div class="sld-corner-mark" aria-hidden="true"></div>
   <div class="sld-photo-stage-copy">
     <p>PHOTOGRAPHY</p>
     <h1>PHOTOS</h1>
@@ -600,9 +671,20 @@ body:has(.sld-photo-stage) .content {
 
 <script>
 (function() {
+  let initRetries = 0;
+
+  function initPhotoWall() {
   const wall = document.querySelector('.sld-photo-wall');
   const gallery = document.querySelector('.sld-floating-gallery');
-  if (!wall || !gallery) return;
+  if (!wall || !gallery) {
+    if (initRetries < 40) {
+      initRetries += 1;
+      setTimeout(initPhotoWall, 50);
+    }
+    return;
+  }
+  if (gallery.dataset.infiniteReady === 'true') return;
+  gallery.dataset.infiniteReady = 'true';
 
   gallery.querySelectorAll('img[data-src]').forEach(function(img) {
     img.src = img.dataset.src;
@@ -735,6 +817,13 @@ body:has(.sld-photo-stage) .content {
 
   render();
   requestAnimationFrame(tick);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPhotoWall);
+  } else {
+    initPhotoWall();
+  }
 })();
 </script>
 
