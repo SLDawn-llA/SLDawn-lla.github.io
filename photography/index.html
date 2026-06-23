@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-23T09:11:21.655Z">
+<meta property="article:modified_time" content="2026-06-23T09:20:25.954Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -155,7 +155,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">PHOTOS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#photo-wall"><span class="nav-number">1.1.</span> <span class="nav-text">Moments kept in frame</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">PHOTOS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#photo-wall"><span class="nav-number">1.1.</span> <span class="nav-text">Moments kept in frame</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#photo-wall"><span class="nav-number">1.1.1.</span> <span class="nav-text"></span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -556,22 +556,22 @@ body:has(.sld-photo-stage) .main-inner {
   height: 360px;
   width: 260px;
 }
-.sld-shot-a { left: 140px; top: 260px; }
-.sld-shot-b { left: 560px; top: 430px; }
-.sld-shot-c { left: 980px; top: 260px; }
-.sld-shot-d { left: 1400px; top: 430px; }
-.sld-shot-e { left: 140px; top: 780px; }
-.sld-shot-f { left: 560px; top: 950px; }
-.sld-shot-g { left: 980px; top: 780px; }
-.sld-shot-h { left: 1400px; top: 950px; }
-.sld-shot-i { left: 140px; top: 1300px; }
-.sld-shot-j { left: 560px; top: 1470px; }
-.sld-shot-k { left: 980px; top: 1300px; }
-.sld-shot-l { left: 1400px; top: 1470px; }
-.sld-shot-m { left: 140px; top: 1820px; }
-.sld-shot-n { left: 560px; top: 1990px; }
-.sld-shot-o { left: 980px; top: 1820px; }
-.sld-shot-p { left: 1400px; top: 1990px; }
+.sld-shot-a { left: 180px; top: 420px; }
+.sld-shot-b { left: 560px; top: 560px; }
+.sld-shot-c { left: 940px; top: 420px; }
+.sld-shot-d { left: 1320px; top: 560px; }
+.sld-shot-e { left: 180px; top: 940px; }
+.sld-shot-f { left: 560px; top: 1080px; }
+.sld-shot-g { left: 940px; top: 940px; }
+.sld-shot-h { left: 1320px; top: 1080px; }
+.sld-shot-i { left: 180px; top: 1460px; }
+.sld-shot-j { left: 560px; top: 1600px; }
+.sld-shot-k { left: 940px; top: 1460px; }
+.sld-shot-l { left: 1320px; top: 1600px; }
+.sld-shot-m { left: 180px; top: 1980px; }
+.sld-shot-n { left: 560px; top: 2120px; }
+.sld-shot-o { left: 940px; top: 1980px; }
+.sld-shot-p { left: 1320px; top: 2120px; }
 .sld-drag-frame {
   color: #111;
   font-size: 32px;
@@ -651,6 +651,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     radial-gradient(circle at center, rgba(32, 239, 57, .08), transparent 45%),
     rgba(8, 9, 10, .97);
   cursor: zoom-out;
+  display: block;
   inset: 0;
   opacity: 0;
   pointer-events: none;
@@ -716,6 +717,9 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   z-index: 3;
 }
 .sld-focus-image-shell {
+  align-items: center;
+  display: flex;
+  justify-content: center;
   border-radius: 18px;
   height: 100%;
   overflow: hidden;
@@ -845,20 +849,8 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     let activeShot = null;
     let focusOpen = false;
 
-    let focusView = document.querySelector('.sld-focus-view');
-    if (!focusView) {
-      focusView = document.createElement('div');
-      focusView.className = 'sld-focus-view';
-      focusView.innerHTML = '' +
-        '<a class="sld-focus-logo" href="/">SD</a>' +
-        '<button class="sld-focus-close" type="button">CLOSE</button>' +
-        '<figure class="sld-focus-figure">' +
-          '<div class="sld-focus-image-shell"><img class="sld-focus-image" alt=""></div>' +
-          '<figcaption class="sld-focus-meta"><h3></h3><p></p></figcaption>' +
-        '</figure>';
-      document.body.appendChild(focusView);
-    }
-
+    const focusView = document.querySelector('.sld-focus-view');
+    if (!focusView) return;
     const focusFigure = focusView.querySelector('.sld-focus-figure');
     const focusImage = focusView.querySelector('.sld-focus-image');
     const focusMeta = focusView.querySelector('.sld-focus-meta');
@@ -1125,6 +1117,20 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     <figure class="sld-shot sld-shot-p" data-title="Roof Edge" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-16.jpg" alt="Roof Edge"><figcaption>16</figcaption></figure>
   </div>
   <button class="sld-page-top" type="button">TOP</button>
+
+  <div class="sld-focus-view" aria-hidden="true">
+    <a class="sld-focus-logo" href="/">SD</a>
+    <button class="sld-focus-close" type="button">CLOSE</button>
+    <figure class="sld-focus-figure">
+      <div class="sld-focus-image-shell">
+        <img class="sld-focus-image" alt="">
+      </div>
+      <figcaption class="sld-focus-meta">
+        <h3></h3>
+        <p></p>
+      </figcaption>
+    </figure>
+  </div>
 </section>
 
       </div>
