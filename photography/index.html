@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-23T08:01:01.784Z">
+<meta property="article:modified_time" content="2026-06-23T08:09:25.446Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -225,6 +225,10 @@
 body:has(.sld-photo-stage) {
   background: #151515 !important;
   overflow-x: hidden !important;
+}
+body.sld-lightbox-open {
+  background: #151515 !important;
+  overflow: hidden !important;
 }
 body:has(.sld-photo-stage) .headband,
 body:has(.sld-photo-stage) .header,
@@ -499,12 +503,12 @@ body:has(.sld-photo-stage) .main-inner {
   margin: 0;
 }
 .sld-floating-gallery {
-  height: 8400px;
+  height: 12000px;
   left: 50%;
   position: absolute;
   top: 50%;
   transform: translate(calc(-50% + var(--pan-x, 0px)), calc(-50% + var(--pan-y, 0px)));
-  width: 6900px;
+  width: 12000px;
   z-index: 3;
 }
 .sld-shot {
@@ -554,22 +558,22 @@ body:has(.sld-photo-stage) .main-inner {
   height: 360px;
   width: 260px;
 }
-.sld-shot-a { left: 90px; top: 260px; }
-.sld-shot-b { left: 490px; top: 510px; }
-.sld-shot-c { left: 890px; top: 260px; }
-.sld-shot-d { left: 1290px; top: 510px; }
-.sld-shot-e { left: 90px; top: 760px; }
-.sld-shot-f { left: 490px; top: 1010px; }
-.sld-shot-g { left: 890px; top: 760px; }
-.sld-shot-h { left: 1290px; top: 1010px; }
-.sld-shot-i { left: 90px; top: 1260px; }
-.sld-shot-j { left: 490px; top: 1510px; }
-.sld-shot-k { left: 890px; top: 1260px; }
-.sld-shot-l { left: 1290px; top: 1510px; }
-.sld-shot-m { left: 90px; top: 1760px; }
-.sld-shot-n { left: 490px; top: 2010px; }
-.sld-shot-o { left: 890px; top: 1760px; }
-.sld-shot-p { left: 1290px; top: 2010px; }
+.sld-shot-a { left: 140px; top: 260px; }
+.sld-shot-b { left: 560px; top: 430px; }
+.sld-shot-c { left: 980px; top: 260px; }
+.sld-shot-d { left: 1400px; top: 430px; }
+.sld-shot-e { left: 140px; top: 780px; }
+.sld-shot-f { left: 560px; top: 950px; }
+.sld-shot-g { left: 980px; top: 780px; }
+.sld-shot-h { left: 1400px; top: 950px; }
+.sld-shot-i { left: 140px; top: 1300px; }
+.sld-shot-j { left: 560px; top: 1470px; }
+.sld-shot-k { left: 980px; top: 1300px; }
+.sld-shot-l { left: 1400px; top: 1470px; }
+.sld-shot-m { left: 140px; top: 1820px; }
+.sld-shot-n { left: 560px; top: 1990px; }
+.sld-shot-o { left: 980px; top: 1820px; }
+.sld-shot-p { left: 1400px; top: 1990px; }
 .sld-drag-frame {
   color: #111;
   font-size: 32px;
@@ -646,12 +650,14 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 }
 .sld-lightbox {
   align-items: center;
-  background: rgba(8, 9, 10, .94);
+  background:
+    radial-gradient(circle at center, rgba(32, 239, 57, .08), transparent 45%),
+    rgba(8, 9, 10, .97);
   cursor: zoom-out;
   display: none;
   inset: 0;
   justify-content: center;
-  padding: 24px;
+  padding: 36px;
   position: fixed;
   z-index: 20000;
 }
@@ -659,13 +665,15 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   display: flex;
 }
 .sld-lightbox img {
+  background: transparent !important;
   border-radius: 14px;
   box-shadow: 0 30px 80px rgba(0, 0, 0, .42);
-  height: auto;
-  max-height: calc(100vh - 48px);
-  max-width: min(92vw, 1400px);
-  object-fit: contain;
-  width: auto;
+  display: block;
+  height: auto !important;
+  max-height: calc(100vh - 72px) !important;
+  max-width: calc(100vw - 72px) !important;
+  object-fit: contain !important;
+  width: auto !important;
 }
 @media (max-width: 767px) {
   .sld-photo-stage { min-height: 760px; padding: 84px 20px 36px; }
@@ -756,8 +764,8 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     img.removeAttribute('data-src');
   });
 
-  const tileWidth = 2300;
-  const tileHeight = 2800;
+  const tileWidth = 3200;
+  const tileHeight = 3400;
   const baseShots = Array.from(gallery.querySelectorAll('.sld-shot')).map(function(shot) {
     return {
       node: shot,
@@ -772,8 +780,8 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     for (let row = -1; row <= 1; row += 1) {
       for (let col = -1; col <= 1; col += 1) {
         const clone = item.node.cloneNode(true);
-        clone.style.left = (item.left + (col + 1) * tileWidth) + 'px';
-        clone.style.top = (item.top + (row + 1) * tileHeight) + 'px';
+        clone.style.left = (item.left + col * tileWidth) + 'px';
+        clone.style.top = (item.top + row * tileHeight) + 'px';
         if (row !== 0 || col !== 0) clone.removeAttribute('id');
         gallery.appendChild(clone);
       }
