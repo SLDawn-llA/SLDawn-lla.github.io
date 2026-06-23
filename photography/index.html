@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-23T15:40:52.127Z">
+<meta property="article:modified_time" content="2026-06-23T16:30:35.538Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -227,6 +227,10 @@ body:has(.sld-photo-stage) {
   overflow-x: hidden !important;
 }
 body.sld-lightbox-open {
+  background: #151515 !important;
+  overflow: hidden !important;
+}
+html.sld-lightbox-open {
   background: #151515 !important;
   overflow: hidden !important;
 }
@@ -579,14 +583,14 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 }
 .sld-drag-frame.top span,
 .sld-drag-frame.bottom span {
-  animation: sld-drag-x 2.6s linear infinite;
+  animation: sld-drag-x 1.4s linear infinite;
 }
 .sld-drag-frame.bottom span {
   animation-direction: reverse;
 }
 .sld-drag-frame.left span,
 .sld-drag-frame.right span {
-  animation: sld-drag-y-left 2.6s linear infinite;
+  animation: sld-drag-y-left 1.4s linear infinite;
 }
 .sld-drag-frame.right span {
   animation-name: sld-drag-y-right;
@@ -814,6 +818,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 
 <script>
 (function() {
+  if (window.CONFIG) window.CONFIG.mediumzoom = false;
   let initRetries = 0;
 
   function fitFullBleed() {
@@ -845,22 +850,22 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       img.removeAttribute('data-src');
     });
 
-    const canvasWidth = 1560;
-    const canvasHeight = 2360;
+    const canvasWidth = 1620;
+    const canvasHeight = 2940;
     gallery.style.width = canvasWidth + 'px';
     gallery.style.height = canvasHeight + 'px';
 
     const shots = Array.from(gallery.querySelectorAll('.sld-shot'));
-    const columns = 4;
-    const startX = 120;
+    const columns = 3;
+    const startX = 140;
     const startY = 320;
     const cardWidth = 248;
     const cardHeight = 330;
-    const gapX = 110;
-    const gapY = 110;
+    const gapX = 230;
+    const gapY = 120;
     const rowStep = cardHeight + gapY;
     const colStep = cardWidth + gapX;
-    const staggerOffsets = [0, 120, 40, 160];
+    const staggerOffsets = [0, 130, 55];
 
     shots.forEach(function(shot, index) {
       const row = Math.floor(index / columns);
@@ -952,6 +957,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       focusTitle.textContent = shot.dataset.title || img.alt || 'Selected Work';
       focusDate.textContent = shot.dataset.date || '+ 2026.04 +';
       document.body.classList.add('sld-lightbox-open');
+      document.documentElement.classList.add('sld-lightbox-open');
       focusView.classList.add('is-open');
       requestAnimationFrame(function() {
         focusMeta.classList.add('is-visible');
@@ -963,6 +969,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       focusMeta.classList.remove('is-visible');
       focusView.classList.remove('is-open');
       document.body.classList.remove('sld-lightbox-open');
+      document.documentElement.classList.remove('sld-lightbox-open');
       activeShot = null;
       focusOpen = false;
     }
@@ -1003,11 +1010,16 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 
     wall.addEventListener('pointerup', finishPointer);
 
-    wall.addEventListener('click', function(event) {
-      const shot = event.target.closest('.sld-shot');
-      if (!shot || didDrag || focusOpen) return;
-      event.preventDefault();
-      openPhoto(shot);
+    shots.forEach(function(shot) {
+      const img = shot.querySelector('img');
+      if (!img) return;
+      img.addEventListener('click', function(event) {
+        if (didDrag || focusOpen) return;
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        openPhoto(shot);
+      }, true);
     });
 
     wall.addEventListener('pointercancel', finishPointer);
@@ -1047,7 +1059,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     }, { passive: false });
 
     focusView.addEventListener('click', function(event) {
-      if (event.target === focusView || event.target.closest('.sld-focus-figure') || event.target.closest('.sld-focus-close')) {
+      if (event.target === focusView || event.target.closest('.sld-focus-image-shell') || event.target.closest('.sld-focus-close')) {
         event.preventDefault();
         closePhoto();
       }
