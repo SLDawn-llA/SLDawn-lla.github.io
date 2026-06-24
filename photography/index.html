@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-24T05:05:40.153Z">
+<meta property="article:modified_time" content="2026-06-24T05:17:50.499Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -857,22 +857,22 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       img.removeAttribute('loading');
     });
 
-    const canvasWidth = 2140;
-    const canvasHeight = 2720;
+    const canvasWidth = 1700;
+    const canvasHeight = 2660;
     gallery.style.width = canvasWidth + 'px';
     gallery.style.height = canvasHeight + 'px';
 
     const shots = Array.from(gallery.querySelectorAll('.sld-shot'));
     const columns = 4;
-    const startX = 150;
+    const startX = 80;
     const startY = 360;
     const cardWidth = 248;
     const cardHeight = 330;
-    const gapX = 170;
-    const gapY = 150;
+    const gapX = 160;
+    const gapY = 130;
     const rowStep = cardHeight + gapY;
     const colStep = cardWidth + gapX;
-    const staggerOffsets = [0, 90, 180, 270];
+    const staggerOffsets = [0, 70, 140, 210];
 
     shots.forEach(function(shot, index) {
       const row = Math.floor(index / columns);
@@ -883,7 +883,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       shot.style.top = top + 'px';
     });
 
-    let x = Math.min(60, (window.innerWidth - canvasWidth) / 2);
+    let x = 40;
     let y = 90;
     let vx = 0;
     let vy = 0;
@@ -895,6 +895,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     let lastY = 0;
     let activeShot = null;
     let focusOpen = false;
+    let pageScrollBeforeFocus = 0;
 
     const focusView = document.querySelector('.sld-focus-view');
     if (!focusView) return;
@@ -912,7 +913,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     }
 
     function limitPosition() {
-      const minX = Math.min(-60, window.innerWidth - canvasWidth + 60);
+      const minX = Math.min(-40, window.innerWidth - canvasWidth - 40);
       const maxX = 60;
       const minY = Math.min(0, window.innerHeight - canvasHeight - 80);
       const maxY = 80;
@@ -958,6 +959,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 
       activeShot = shot;
       focusOpen = true;
+      pageScrollBeforeFocus = window.scrollY || window.pageYOffset || 0;
       focusMeta.classList.remove('is-visible');
       focusImage.src = img.currentSrc || img.src;
       focusImage.alt = img.alt || '';
@@ -977,6 +979,8 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       focusView.classList.remove('is-open');
       document.body.classList.remove('sld-lightbox-open');
       document.documentElement.classList.remove('sld-lightbox-open');
+      history.replaceState(null, '', location.pathname + location.search);
+      window.scrollTo(0, pageScrollBeforeFocus);
       activeShot = null;
       focusOpen = false;
     }
