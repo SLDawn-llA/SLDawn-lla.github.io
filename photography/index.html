@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-24T05:33:56.193Z">
+<meta property="article:modified_time" content="2026-06-24T09:22:15.916Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -866,26 +866,28 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       img.removeAttribute('loading');
     });
 
-    const canvasWidth = 2140;
+    const canvasWidth = 2280;
     const canvasHeight = 2660;
     gallery.style.width = canvasWidth + 'px';
     gallery.style.height = canvasHeight + 'px';
 
     const shots = Array.from(gallery.querySelectorAll('.sld-shot'));
-    const columns = 4;
-    const columnX = [90, 560, 1120, 1680];
-    const columnStartY = [360, 150, 430, 210];
     const rowStep = 520;
-    const columnRows = [0, 0, 0, 0];
 
-    shots.forEach(function(shot, index) {
-      const col = index % columns;
-      const row = columnRows[col];
-      const left = columnX[col];
-      const top = columnStartY[col] + row * rowStep;
-      shot.style.left = left + 'px';
-      shot.style.top = top + 'px';
-      columnRows[col] += 1;
+    const columnLayout = [
+      { x: 90, startY: 360, ids: ['photo-01', 'photo-05', 'photo-09', 'photo-13'] },
+      { x: 560, startY: 150, ids: ['photo-02', 'photo-06', 'photo-10', 'photo-14'] },
+      { x: 1320, startY: 430, ids: ['photo-03', 'photo-07', 'photo-11', 'photo-15'] },
+      { x: 1760, startY: 210, ids: ['photo-04', 'photo-08', 'photo-12', 'photo-16'] }
+    ];
+
+    columnLayout.forEach(function(column) {
+      column.ids.forEach(function(id, row) {
+        const shot = document.getElementById(id);
+        if (!shot) return;
+        shot.style.left = column.x + 'px';
+        shot.style.top = (column.startY + row * rowStep) + 'px';
+      });
     });
 
     let x = 40;
