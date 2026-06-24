@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-23T16:30:35.538Z">
+<meta property="article:modified_time" content="2026-06-24T04:17:46.661Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -531,6 +531,7 @@ body:has(.sld-photo-stage) .main-inner {
   display: block;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
   width: 100%;
 }
 .sld-shot figcaption {
@@ -583,14 +584,14 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 }
 .sld-drag-frame.top span,
 .sld-drag-frame.bottom span {
-  animation: sld-drag-x 1.4s linear infinite;
+  animation: sld-drag-x .9s linear infinite;
 }
 .sld-drag-frame.bottom span {
   animation-direction: reverse;
 }
 .sld-drag-frame.left span,
 .sld-drag-frame.right span {
-  animation: sld-drag-y-left 1.4s linear infinite;
+  animation: sld-drag-y-left .9s linear infinite;
 }
 .sld-drag-frame.right span {
   animation-name: sld-drag-y-right;
@@ -850,7 +851,13 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       img.removeAttribute('data-src');
     });
 
-    const canvasWidth = 1620;
+    gallery.querySelectorAll('.sld-shot img').forEach(function(img) {
+      img.classList.remove('medium-zoom-image');
+      img.removeAttribute('data-zoom-src');
+      img.removeAttribute('loading');
+    });
+
+    const canvasWidth = 1880;
     const canvasHeight = 2940;
     gallery.style.width = canvasWidth + 'px';
     gallery.style.height = canvasHeight + 'px';
@@ -861,11 +868,11 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     const startY = 320;
     const cardWidth = 248;
     const cardHeight = 330;
-    const gapX = 230;
-    const gapY = 120;
+    const gapX = 320;
+    const gapY = 180;
     const rowStep = cardHeight + gapY;
     const colStep = cardWidth + gapX;
-    const staggerOffsets = [0, 130, 55];
+    const staggerOffsets = [0, 60, 120];
 
     shots.forEach(function(shot, index) {
       const row = Math.floor(index / columns);
@@ -1011,9 +1018,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     wall.addEventListener('pointerup', finishPointer);
 
     shots.forEach(function(shot) {
-      const img = shot.querySelector('img');
-      if (!img) return;
-      img.addEventListener('click', function(event) {
+      shot.addEventListener('click', function(event) {
         if (didDrag || focusOpen) return;
         event.preventDefault();
         event.stopPropagation();
