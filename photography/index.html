@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-24T05:17:50.499Z">
+<meta property="article:modified_time" content="2026-06-24T05:33:56.193Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -578,24 +578,6 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 .sld-photo-wall.is-dragging .sld-drag-frame {
   opacity: 1;
 }
-.sld-drag-frame span {
-  display: inline-block;
-  margin: 0 24px;
-}
-.sld-drag-frame.top span,
-.sld-drag-frame.bottom span {
-  animation: sld-drag-x .7s linear infinite;
-}
-.sld-drag-frame.bottom span {
-  animation-direction: reverse;
-}
-.sld-drag-frame.left span,
-.sld-drag-frame.right span {
-  animation: sld-drag-y-left .7s linear infinite;
-}
-.sld-drag-frame.right span {
-  animation-name: sld-drag-y-right;
-}
 .sld-drag-frame.top,
 .sld-drag-frame.bottom {
   align-items: center;
@@ -604,9 +586,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   height: 50px;
   left: 0;
   overflow: hidden;
-  padding: 0 72px;
   right: 0;
-  white-space: nowrap;
 }
 .sld-drag-frame.top { top: 0; }
 .sld-drag-frame.bottom { bottom: 0; }
@@ -621,16 +601,49 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   top: 0;
   width: 50px;
 }
+.sld-drag-frame.left { left: 0; }
+.sld-drag-frame.right { right: 0; }
+.sld-drag-track {
+  display: flex;
+  flex: 0 0 auto;
+  min-width: max-content;
+}
+.sld-drag-frame.top .sld-drag-track,
+.sld-drag-frame.bottom .sld-drag-track {
+  align-items: center;
+  animation: sld-drag-marquee-x 2s linear infinite;
+  gap: 42px;
+  padding: 0 32px;
+  white-space: nowrap;
+}
+.sld-drag-frame.bottom .sld-drag-track {
+  animation-direction: reverse;
+}
+.sld-drag-frame.left .sld-drag-track,
+.sld-drag-frame.right .sld-drag-track {
+  align-items: center;
+  animation: sld-drag-marquee-y 2s linear infinite;
+  flex-direction: column;
+  gap: 36px;
+  min-height: max-content;
+  padding: 24px 0;
+}
+.sld-drag-frame.right .sld-drag-track {
+  animation-direction: reverse;
+}
+.sld-drag-frame span {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 14px;
+  white-space: nowrap;
+}
 .sld-drag-frame.left span,
 .sld-drag-frame.right span {
-  margin: 44px 0;
-  min-width: 120px;
-  text-align: center;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+  writing-mode: vertical-rl;
 }
-.sld-drag-frame.left { left: 0; }
-.sld-drag-frame.left span { transform: rotate(-90deg); }
-.sld-drag-frame.right { right: 0; }
-.sld-drag-frame.right span { transform: rotate(90deg); }
 .sld-page-top {
   background: #20ef39;
   border: 0;
@@ -765,17 +778,13 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   margin: 0;
   text-transform: uppercase;
 }
-@keyframes sld-drag-x {
+@keyframes sld-drag-marquee-x {
   from { transform: translateX(0); }
-  to { transform: translateX(-32px); }
+  to { transform: translateX(-50%); }
 }
-@keyframes sld-drag-y-left {
-  from { transform: rotate(-90deg) translateX(0); }
-  to { transform: rotate(-90deg) translateX(-32px); }
-}
-@keyframes sld-drag-y-right {
-  from { transform: rotate(90deg) translateX(0); }
-  to { transform: rotate(90deg) translateX(-32px); }
+@keyframes sld-drag-marquee-y {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
 }
 @media (max-width: 767px) {
   .sld-photo-stage { min-height: 760px; padding: 84px 20px 36px; }
@@ -857,30 +866,26 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       img.removeAttribute('loading');
     });
 
-    const canvasWidth = 1700;
+    const canvasWidth = 2140;
     const canvasHeight = 2660;
     gallery.style.width = canvasWidth + 'px';
     gallery.style.height = canvasHeight + 'px';
 
     const shots = Array.from(gallery.querySelectorAll('.sld-shot'));
     const columns = 4;
-    const startX = 80;
-    const startY = 360;
-    const cardWidth = 248;
-    const cardHeight = 330;
-    const gapX = 160;
-    const gapY = 130;
-    const rowStep = cardHeight + gapY;
-    const colStep = cardWidth + gapX;
-    const staggerOffsets = [0, 70, 140, 210];
+    const columnX = [90, 560, 1120, 1680];
+    const columnStartY = [360, 150, 430, 210];
+    const rowStep = 520;
+    const columnRows = [0, 0, 0, 0];
 
     shots.forEach(function(shot, index) {
-      const row = Math.floor(index / columns);
       const col = index % columns;
-      const left = startX + col * colStep;
-      const top = startY + row * rowStep + staggerOffsets[col];
+      const row = columnRows[col];
+      const left = columnX[col];
+      const top = columnStartY[col] + row * rowStep;
       shot.style.left = left + 'px';
       shot.style.top = top + 'px';
+      columnRows[col] += 1;
     });
 
     let x = 40;
@@ -1125,10 +1130,10 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 </script>
 
 <section id="photo-wall" class="sld-photo-wall">
-  <div class="sld-drag-frame top"><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span></div>
-  <div class="sld-drag-frame right"><span>DRAG</span><span>DRAG</span><span>DRAG</span><span>DRAG</span></div>
-  <div class="sld-drag-frame bottom"><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span></div>
-  <div class="sld-drag-frame left"><span>DRAG</span><span>DRAG</span><span>DRAG</span><span>DRAG</span></div>
+  <div class="sld-drag-frame top"><div class="sld-drag-track"><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span><span>DRAG &larr;</span></div></div>
+  <div class="sld-drag-frame right"><div class="sld-drag-track"><span>DRAG &darr;</span><span>DRAG &darr;</span><span>DRAG &darr;</span><span>DRAG &darr;</span><span>DRAG &darr;</span><span>DRAG &darr;</span><span>DRAG &darr;</span><span>DRAG &darr;</span></div></div>
+  <div class="sld-drag-frame bottom"><div class="sld-drag-track"><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span></div></div>
+  <div class="sld-drag-frame left"><div class="sld-drag-track"><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span></div></div>
   <div class="sld-photo-wall-head">
     <p>SHOWOUT / 2026</p>
     <h2>Moments kept in frame</h2>
