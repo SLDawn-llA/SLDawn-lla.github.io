@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-24T04:52:19.918Z">
+<meta property="article:modified_time" content="2026-06-24T05:05:40.153Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -857,22 +857,22 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       img.removeAttribute('loading');
     });
 
-    const canvasWidth = 1980;
-    const canvasHeight = 2860;
+    const canvasWidth = 2140;
+    const canvasHeight = 2720;
     gallery.style.width = canvasWidth + 'px';
     gallery.style.height = canvasHeight + 'px';
 
     const shots = Array.from(gallery.querySelectorAll('.sld-shot'));
     const columns = 4;
-    const startX = 120;
-    const startY = 320;
+    const startX = 150;
+    const startY = 360;
     const cardWidth = 248;
     const cardHeight = 330;
-    const gapX = 120;
+    const gapX = 170;
     const gapY = 150;
     const rowStep = cardHeight + gapY;
     const colStep = cardWidth + gapX;
-    const staggerOffsets = [0, 80, 160, 240];
+    const staggerOffsets = [0, 90, 180, 270];
 
     shots.forEach(function(shot, index) {
       const row = Math.floor(index / columns);
@@ -883,7 +883,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       shot.style.top = top + 'px';
     });
 
-    let x = (window.innerWidth - canvasWidth) / 2;
+    let x = Math.min(60, (window.innerWidth - canvasWidth) / 2);
     let y = 90;
     let vx = 0;
     let vy = 0;
@@ -912,8 +912,8 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     }
 
     function limitPosition() {
-      const minX = Math.min(0, window.innerWidth - canvasWidth - 80);
-      const maxX = 80;
+      const minX = Math.min(-60, window.innerWidth - canvasWidth + 60);
+      const maxX = 60;
       const minY = Math.min(0, window.innerHeight - canvasHeight - 80);
       const maxY = 80;
       x = clamp(x, minX, maxX);
@@ -1071,6 +1071,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     focusView.addEventListener('click', function(event) {
       if (event.target === focusView || event.target.closest('.sld-focus-image-shell') || event.target.closest('.sld-focus-close')) {
         event.preventDefault();
+        event.stopPropagation();
         closePhoto();
       }
     });
@@ -1094,12 +1095,15 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
         if (!target) return;
         event.preventDefault();
         wall.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        const targetLeft = parseFloat(getComputedStyle(target).left) || 0;
-        const targetTop = parseFloat(getComputedStyle(target).top) || 0;
-        x = window.innerWidth / 2 - (targetLeft + target.offsetWidth / 2);
-        y = window.innerHeight / 2 - (targetTop + target.offsetHeight / 2);
-        render();
-        history.replaceState(null, '', link.getAttribute('href'));
+        const jumpToTarget = function() {
+          const targetLeft = parseFloat(target.style.left || getComputedStyle(target).left) || 0;
+          const targetTop = parseFloat(target.style.top || getComputedStyle(target).top) || 0;
+          x = window.innerWidth / 2 - (targetLeft + target.offsetWidth / 2);
+          y = window.innerHeight / 2 - (targetTop + target.offsetHeight / 2);
+          render();
+          history.replaceState(null, '', link.getAttribute('href'));
+        };
+        window.setTimeout(jumpToTarget, 380);
       });
     });
 
@@ -1130,18 +1134,18 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     <figure id="photo-02" class="sld-shot sld-shot-b" data-title="Campus Gate" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-02.jpg" alt="Campus Gate"><figcaption>02</figcaption></figure>
     <figure id="photo-03" class="sld-shot sld-shot-c" data-title="Spring Branch" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-03.jpg" alt="Spring Branch"><figcaption>03</figcaption></figure>
     <figure id="photo-04" class="sld-shot sld-shot-d" data-title="Quiet Bloom" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-04.jpg" alt="Quiet Bloom"><figcaption>04</figcaption></figure>
-    <figure class="sld-shot sld-shot-e" data-title="Warm Room" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-05.jpg" alt="Warm Room"><figcaption>05</figcaption></figure>
-    <figure class="sld-shot sld-shot-f" data-title="Petal Ground" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-06.jpg" alt="Petal Ground"><figcaption>06</figcaption></figure>
-    <figure class="sld-shot sld-shot-g" data-title="Green Light" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-07.jpg" alt="Green Light"><figcaption>07</figcaption></figure>
-    <figure class="sld-shot sld-shot-h" data-title="Roof Smoke" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-08.jpg" alt="Roof Smoke"><figcaption>08</figcaption></figure>
-    <figure class="sld-shot sld-shot-i" data-title="Branch Sketch" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-09.jpg" alt="Branch Sketch"><figcaption>09</figcaption></figure>
-    <figure class="sld-shot sld-shot-j" data-title="Blue Dome" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-10.jpg" alt="Blue Dome"><figcaption>10</figcaption></figure>
-    <figure class="sld-shot sld-shot-k" data-title="Night Curve" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-11.jpg" alt="Night Curve"><figcaption>11</figcaption></figure>
-    <figure class="sld-shot sld-shot-l" data-title="Pink Burst" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-12.jpg" alt="Pink Burst"><figcaption>12</figcaption></figure>
-    <figure class="sld-shot sld-shot-m" data-title="White Watch" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-13.jpg" alt="White Watch"><figcaption>13</figcaption></figure>
-    <figure class="sld-shot sld-shot-n" data-title="Sunset Needle" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-14.jpg" alt="Sunset Needle"><figcaption>14</figcaption></figure>
-    <figure class="sld-shot sld-shot-o" data-title="Far City" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-15.jpg" alt="Far City"><figcaption>15</figcaption></figure>
-    <figure class="sld-shot sld-shot-p" data-title="Roof Edge" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-16.jpg" alt="Roof Edge"><figcaption>16</figcaption></figure>
+    <figure id="photo-05" class="sld-shot sld-shot-e" data-title="Warm Room" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-05.jpg" alt="Warm Room"><figcaption>05</figcaption></figure>
+    <figure id="photo-06" class="sld-shot sld-shot-f" data-title="Petal Ground" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-06.jpg" alt="Petal Ground"><figcaption>06</figcaption></figure>
+    <figure id="photo-07" class="sld-shot sld-shot-g" data-title="Green Light" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-07.jpg" alt="Green Light"><figcaption>07</figcaption></figure>
+    <figure id="photo-08" class="sld-shot sld-shot-h" data-title="Roof Smoke" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-08.jpg" alt="Roof Smoke"><figcaption>08</figcaption></figure>
+    <figure id="photo-09" class="sld-shot sld-shot-i" data-title="Branch Sketch" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-09.jpg" alt="Branch Sketch"><figcaption>09</figcaption></figure>
+    <figure id="photo-10" class="sld-shot sld-shot-j" data-title="Blue Dome" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-10.jpg" alt="Blue Dome"><figcaption>10</figcaption></figure>
+    <figure id="photo-11" class="sld-shot sld-shot-k" data-title="Night Curve" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-11.jpg" alt="Night Curve"><figcaption>11</figcaption></figure>
+    <figure id="photo-12" class="sld-shot sld-shot-l" data-title="Pink Burst" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-12.jpg" alt="Pink Burst"><figcaption>12</figcaption></figure>
+    <figure id="photo-13" class="sld-shot sld-shot-m" data-title="White Watch" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-13.jpg" alt="White Watch"><figcaption>13</figcaption></figure>
+    <figure id="photo-14" class="sld-shot sld-shot-n" data-title="Sunset Needle" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-14.jpg" alt="Sunset Needle"><figcaption>14</figcaption></figure>
+    <figure id="photo-15" class="sld-shot sld-shot-o" data-title="Far City" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-15.jpg" alt="Far City"><figcaption>15</figcaption></figure>
+    <figure id="photo-16" class="sld-shot sld-shot-p" data-title="Roof Edge" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-16.jpg" alt="Roof Edge"><figcaption>16</figcaption></figure>
   </div>
   <button class="sld-page-top" type="button">TOP</button>
 
