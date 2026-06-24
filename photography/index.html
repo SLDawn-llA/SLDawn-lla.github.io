@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-24T04:17:46.661Z">
+<meta property="article:modified_time" content="2026-06-24T04:52:19.918Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -584,14 +584,14 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 }
 .sld-drag-frame.top span,
 .sld-drag-frame.bottom span {
-  animation: sld-drag-x .9s linear infinite;
+  animation: sld-drag-x .7s linear infinite;
 }
 .sld-drag-frame.bottom span {
   animation-direction: reverse;
 }
 .sld-drag-frame.left span,
 .sld-drag-frame.right span {
-  animation: sld-drag-y-left .9s linear infinite;
+  animation: sld-drag-y-left .7s linear infinite;
 }
 .sld-drag-frame.right span {
   animation-name: sld-drag-y-right;
@@ -857,22 +857,22 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       img.removeAttribute('loading');
     });
 
-    const canvasWidth = 1880;
-    const canvasHeight = 2940;
+    const canvasWidth = 1980;
+    const canvasHeight = 2860;
     gallery.style.width = canvasWidth + 'px';
     gallery.style.height = canvasHeight + 'px';
 
     const shots = Array.from(gallery.querySelectorAll('.sld-shot'));
-    const columns = 3;
-    const startX = 140;
+    const columns = 4;
+    const startX = 120;
     const startY = 320;
     const cardWidth = 248;
     const cardHeight = 330;
-    const gapX = 320;
-    const gapY = 180;
+    const gapX = 120;
+    const gapY = 150;
     const rowStep = cardHeight + gapY;
     const colStep = cardWidth + gapX;
-    const staggerOffsets = [0, 60, 120];
+    const staggerOffsets = [0, 80, 160, 240];
 
     shots.forEach(function(shot, index) {
       const row = Math.floor(index / columns);
@@ -1018,8 +1018,13 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     wall.addEventListener('pointerup', finishPointer);
 
     shots.forEach(function(shot) {
+      shot.addEventListener('pointerdown', function(event) {
+        didDrag = false;
+        event.stopPropagation();
+      }, true);
       shot.addEventListener('click', function(event) {
-        if (didDrag || focusOpen) return;
+        didDrag = false;
+        if (focusOpen) return;
         event.preventDefault();
         event.stopPropagation();
         event.stopImmediatePropagation();
