@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-26T13:10:41.691Z">
+<meta property="article:modified_time" content="2026-06-26T14:09:54.378Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -481,15 +481,6 @@ body:has(.sld-photo-stage) .main-inner {
 .sld-photo-wall.is-dragging {
   cursor: grabbing;
 }
-.sld-photo-wall::before {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
-  background-size: 64px 64px;
-  content: "";
-  inset: 0;
-  position: absolute;
-}
 .sld-photo-wall-head {
   left: 68px;
   pointer-events: none;
@@ -513,12 +504,42 @@ body:has(.sld-photo-stage) .main-inner {
   width: 1920px;
   z-index: 3;
 }
+.sld-floating-gallery::before {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+.sld-photo-wall.is-layout-debug .sld-floating-gallery::after {
+  background: rgba(255, 72, 72, .75);
+  bottom: 0;
+  content: "";
+  left: 1360px;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 2px;
+  z-index: 2;
+}
+.sld-photo-wall.is-layout-debug #photo-03,
+.sld-photo-wall.is-layout-debug #photo-07,
+.sld-photo-wall.is-layout-debug #photo-11,
+.sld-photo-wall.is-layout-debug #photo-15 {
+  outline: 2px solid rgba(255, 72, 72, .9);
+  outline-offset: 3px;
+}
 .sld-shot {
   cursor: zoom-in;
   margin: 0;
   position: absolute;
   scroll-margin-top: 120px;
   transition: transform .24s ease, filter .24s ease;
+  z-index: 1;
 }
 .sld-shot:hover {
   filter: brightness(1.08);
@@ -531,6 +552,7 @@ body:has(.sld-photo-stage) .main-inner {
   display: block;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
   pointer-events: none;
   width: 100%;
 }
@@ -904,6 +926,33 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       shot.style.left = position.x + 'px';
       shot.style.top = position.y + 'px';
     });
+
+    const layoutDebug = /(?:\?|&)layout-debug(?:=1)?(?:&|$)/.test(location.search);
+    if (layoutDebug) {
+      wall.classList.add('is-layout-debug');
+      requestAnimationFrame(function() {
+        const col3Ids = ['photo-03', 'photo-07', 'photo-11', 'photo-15'];
+        const rects = col3Ids.map(function(id) {
+          const el = document.getElementById(id);
+          if (!el) return { id: id, left: 'missing' };
+          const box = el.getBoundingClientRect();
+          return {
+            id: id,
+            frameLeft: box.left.toFixed(1),
+            frameWidth: box.width.toFixed(1),
+            styleLeft: el.style.left
+          };
+        });
+        console.table(rects);
+        const lefts = rects
+          .map(function(row) { return parseFloat(row.frameLeft); })
+          .filter(function(value) { return !isNaN(value); });
+        if (lefts.length) {
+          const spread = Math.max.apply(null, lefts) - Math.min.apply(null, lefts);
+          console.log('[layout-debug] column 3 frame-left spread: ' + spread.toFixed(2) + 'px (0 = aligned)');
+        }
+      });
+    }
 
     let x = 40;
     let y = 90;
