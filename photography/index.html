@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-26T15:58:26.715Z">
+<meta property="article:modified_time" content="2026-06-26T16:15:26.488Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -495,11 +495,6 @@ body:has(.sld-photo-stage) .main-inner {
   line-height: 1.15;
   margin: 0;
 }
-.sld-photo-wall-head p .sld-layout-tag {
-  color: rgba(120, 210, 255, .9);
-  font-weight: 700;
-  letter-spacing: 1px;
-}
 .sld-floating-gallery {
   height: 2860px;
   left: 0;
@@ -519,28 +514,6 @@ body:has(.sld-photo-stage) .main-inner {
   pointer-events: none;
   position: absolute;
   z-index: 0;
-}
-.sld-column-guides {
-  inset: 0;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-}
-.sld-column-guide-line {
-  background: rgba(100, 180, 255, .32);
-  bottom: 0;
-  margin-left: 0;
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  width: 2px;
-}
-.sld-column-guide-line.is-primary {
-  background: rgba(120, 210, 255, .72);
-  width: 2px;
-}
-.sld-photo-wall.is-layout-debug .sld-column-guide-line.is-primary {
-  background: rgba(255, 72, 72, .9);
 }
 .sld-photo-wall.is-layout-debug .sld-floating-gallery::after {
   content: none;
@@ -924,21 +897,14 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     let canvasHeight = 160;
     const canvasWidth = COLUMNS[3].x + CARD_W + 160;
     const shotPositions = {};
-    const guidesRoot = gallery.querySelector('.sld-column-guides');
 
-    COLUMNS.forEach(function(col, index) {
+    COLUMNS.forEach(function(col) {
       let y = col.top;
       col.ids.forEach(function(id) {
         shotPositions[id] = { x: col.x, y: y };
         canvasHeight = Math.max(canvasHeight, y + CARD_STEP);
         y += CARD_STEP;
       });
-      if (guidesRoot) {
-        const line = document.createElement('div');
-        line.className = 'sld-column-guide-line' + (index === 2 ? ' is-primary' : '');
-        line.style.left = col.x + 'px';
-        guidesRoot.appendChild(line);
-      }
     });
 
     gallery.style.width = canvasWidth + 'px';
@@ -1238,11 +1204,10 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   <div class="sld-drag-frame bottom"><div class="sld-drag-track"><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span></div></div>
   <div class="sld-drag-frame left"><div class="sld-drag-track"><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span></div></div>
   <div class="sld-photo-wall-head">
-    <p>SHOWOUT / 2026 · <span class="sld-layout-tag">4col-v1</span></p>
+    <p>SHOWOUT / 2026</p>
     <h2>Moments kept in frame</h2>
   </div>
   <div class="sld-floating-gallery">
-    <div class="sld-column-guides" aria-hidden="true"></div>
     <figure id="photo-01" class="sld-shot sld-shot-a" data-title="Bloom Field" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-01.jpg" alt="Bloom Field"><figcaption>01</figcaption></figure>
     <figure id="photo-02" class="sld-shot sld-shot-b" data-title="Campus Gate" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-02.jpg" alt="Campus Gate"><figcaption>02</figcaption></figure>
     <figure id="photo-03" class="sld-shot sld-shot-c" data-title="Spring Branch" data-date="+ 2026.04 +"><img data-src="/images/photos/showout/photo-03.jpg" alt="Spring Branch"><figcaption>03</figcaption></figure>
