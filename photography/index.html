@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-26T14:38:29.676Z">
+<meta property="article:modified_time" content="2026-06-26T15:24:13.218Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -522,10 +522,9 @@ body:has(.sld-photo-stage) .main-inner {
 }
 .sld-column-guides {
   background-image:
-    linear-gradient(90deg, transparent calc(var(--col1-x, 120px) - 1px), rgba(100, 180, 255, .28) var(--col1-x, 120px), transparent calc(var(--col1-x, 120px) + 1px)),
-    linear-gradient(90deg, transparent calc(var(--col2-x, 920px) - 1px), rgba(100, 180, 255, .28) var(--col2-x, 920px), transparent calc(var(--col2-x, 920px) + 1px)),
-    linear-gradient(90deg, transparent calc(var(--col3-x, 1800px) - 1px), rgba(120, 210, 255, .42) var(--col3-x, 1800px), transparent calc(var(--col3-x, 1800px) + 1px)),
-    linear-gradient(90deg, transparent calc(var(--col4-x, 2880px) - 1px), rgba(100, 180, 255, .28) var(--col4-x, 2880px), transparent calc(var(--col4-x, 2880px) + 1px));
+    linear-gradient(90deg, transparent calc(var(--col1-x, 160px) - 1px), rgba(100, 180, 255, .28) var(--col1-x, 160px), transparent calc(var(--col1-x, 160px) + 1px)),
+    linear-gradient(90deg, transparent calc(var(--col2-x, 900px) - 1px), rgba(100, 180, 255, .28) var(--col2-x, 900px), transparent calc(var(--col2-x, 900px) + 1px)),
+    linear-gradient(90deg, transparent calc(var(--col3-x, 1640px) - 1px), rgba(120, 210, 255, .42) var(--col3-x, 1640px), transparent calc(var(--col3-x, 1640px) + 1px));
   inset: 0;
   pointer-events: none;
   position: absolute;
@@ -533,10 +532,9 @@ body:has(.sld-photo-stage) .main-inner {
 }
 .sld-photo-wall.is-layout-debug .sld-column-guides {
   background-image:
-    linear-gradient(90deg, transparent calc(var(--col1-x, 120px) - 1px), rgba(255, 72, 72, .55) var(--col1-x, 120px), transparent calc(var(--col1-x, 120px) + 1px)),
-    linear-gradient(90deg, transparent calc(var(--col2-x, 920px) - 1px), rgba(255, 72, 72, .55) var(--col2-x, 920px), transparent calc(var(--col2-x, 920px) + 1px)),
-    linear-gradient(90deg, transparent calc(var(--col3-x, 1800px) - 1px), rgba(255, 72, 72, .9) var(--col3-x, 1800px), transparent calc(var(--col3-x, 1800px) + 1px)),
-    linear-gradient(90deg, transparent calc(var(--col4-x, 2880px) - 1px), rgba(255, 72, 72, .55) var(--col4-x, 2880px), transparent calc(var(--col4-x, 2880px) + 1px));
+    linear-gradient(90deg, transparent calc(var(--col1-x, 160px) - 1px), rgba(255, 72, 72, .55) var(--col1-x, 160px), transparent calc(var(--col1-x, 160px) + 1px)),
+    linear-gradient(90deg, transparent calc(var(--col2-x, 900px) - 1px), rgba(255, 72, 72, .55) var(--col2-x, 900px), transparent calc(var(--col2-x, 900px) + 1px)),
+    linear-gradient(90deg, transparent calc(var(--col3-x, 1640px) - 1px), rgba(255, 72, 72, .9) var(--col3-x, 1640px), transparent calc(var(--col3-x, 1640px) + 1px));
 }
 .sld-photo-wall.is-layout-debug .sld-floating-gallery::after {
   content: none;
@@ -566,7 +564,7 @@ body:has(.sld-photo-stage) .main-inner {
   box-shadow: 0 28px 80px rgba(0, 0, 0, .45);
   box-sizing: border-box;
   display: block;
-  height: 100%;
+  height: 330px;
   object-fit: cover;
   object-position: center center;
   pointer-events: none;
@@ -596,7 +594,6 @@ body:has(.sld-photo-stage) .main-inner {
 .sld-shot-n,
 .sld-shot-o,
 .sld-shot-p {
-  height: 330px;
   width: 248px;
 }
 .sld-drag-frame {
@@ -888,7 +885,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       }
       return;
     }
-    const LAYOUT_VERSION = 'col-v4';
+    const LAYOUT_VERSION = '3col-stagger-v1';
     if (gallery.dataset.layoutVersion === LAYOUT_VERSION) return;
     gallery.dataset.layoutVersion = LAYOUT_VERSION;
     fitFullBleed();
@@ -905,26 +902,31 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       img.removeAttribute('loading');
     });
 
-    const COLUMN_X = [120, 920, 1800, 2880];
-    const ROW_Y = [160, 700, 1240, 1780];
-    const CARD_W = 248;
-    const CARD_H = 330;
-    const canvasWidth = COLUMN_X[3] + CARD_W + 120;
-    const canvasHeight = 2860;
-    gallery.style.width = canvasWidth + 'px';
-    gallery.style.height = canvasHeight + 'px';
-    COLUMN_X.forEach(function(colX, index) {
-      gallery.style.setProperty('--col' + (index + 1) + '-x', colX + 'px');
-    });
+  const CARD_W = 248;
+  const CARD_STEP = 400;
+  const COLUMNS = [
+    { x: 160,  top: 160, ids: ['photo-01', 'photo-05', 'photo-09', 'photo-13'] },
+    { x: 900,  top: 380, ids: ['photo-02', 'photo-04', 'photo-06', 'photo-08', 'photo-10', 'photo-12', 'photo-14', 'photo-16'] },
+    { x: 1640, top: 160, ids: ['photo-03', 'photo-07', 'photo-11', 'photo-15'] }
+  ];
+  let canvasHeight = 160;
+  const canvasWidth = COLUMNS[2].x + CARD_W + 160;
+  const shotPositions = {};
 
-    const shots = Array.from(gallery.querySelectorAll('.sld-shot'));
-    const shotPositions = {};
-    ROW_Y.forEach(function(rowY, row) {
-      COLUMN_X.forEach(function(colX, col) {
-        const id = 'photo-' + String(row * 4 + col + 1).padStart(2, '0');
-        shotPositions[id] = { x: colX, y: rowY };
-      });
+  COLUMNS.forEach(function(col, index) {
+    gallery.style.setProperty('--col' + (index + 1) + '-x', col.x + 'px');
+    let y = col.top;
+    col.ids.forEach(function(id) {
+      shotPositions[id] = { x: col.x, y: y };
+      canvasHeight = Math.max(canvasHeight, y + CARD_STEP);
+      y += CARD_STEP;
     });
+  });
+
+  gallery.style.width = canvasWidth + 'px';
+  gallery.style.height = canvasHeight + 'px';
+
+  const shots = Array.from(gallery.querySelectorAll('.sld-shot'));
 
     shots.forEach(function(shot) {
       const position = shotPositions[shot.id];
@@ -1217,7 +1219,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   <div class="sld-drag-frame bottom"><div class="sld-drag-track"><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span></div></div>
   <div class="sld-drag-frame left"><div class="sld-drag-track"><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span></div></div>
   <div class="sld-photo-wall-head">
-    <p>SHOWOUT / 2026 · <span class="sld-layout-tag">col-v4</span></p>
+    <p>SHOWOUT / 2026 · <span class="sld-layout-tag">3col-v1</span></p>
     <h2>Moments kept in frame</h2>
   </div>
   <div class="sld-floating-gallery">
