@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-26T15:38:52.179Z">
+<meta property="article:modified_time" content="2026-06-26T15:58:26.715Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -894,7 +894,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       }
       return;
     }
-    const LAYOUT_VERSION = '3col-stagger-v2';
+    const LAYOUT_VERSION = '4col-stagger-v1';
     if (gallery.dataset.layoutVersion === LAYOUT_VERSION) return;
     gallery.dataset.layoutVersion = LAYOUT_VERSION;
     fitFullBleed();
@@ -914,13 +914,15 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     const CARD_W = 248;
     const CARD_GAP = 200;
     const CARD_STEP = 400;
+    const COL_STEP = CARD_W + CARD_GAP;
     const COLUMNS = [
       { x: 160, top: 160, ids: ['photo-01', 'photo-05', 'photo-09', 'photo-13'] },
-      { x: 160 + CARD_W + CARD_GAP, top: 380, ids: ['photo-02', 'photo-04', 'photo-06', 'photo-08', 'photo-10', 'photo-12', 'photo-14', 'photo-16'] },
-      { x: 160 + (CARD_W + CARD_GAP) * 2, top: 160, ids: ['photo-03', 'photo-07', 'photo-11', 'photo-15'] }
+      { x: 160 + COL_STEP, top: 380, ids: ['photo-02', 'photo-06', 'photo-10', 'photo-14'] },
+      { x: 160 + COL_STEP * 2, top: 160, ids: ['photo-03', 'photo-07', 'photo-11', 'photo-15'] },
+      { x: 160 + COL_STEP * 3, top: 380, ids: ['photo-04', 'photo-08', 'photo-12', 'photo-16'] }
     ];
     let canvasHeight = 160;
-    const canvasWidth = COLUMNS[2].x + CARD_W + 160;
+    const canvasWidth = COLUMNS[3].x + CARD_W + 160;
     const shotPositions = {};
     const guidesRoot = gallery.querySelector('.sld-column-guides');
 
@@ -1236,7 +1238,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   <div class="sld-drag-frame bottom"><div class="sld-drag-track"><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span><span>&rarr; DRAG</span></div></div>
   <div class="sld-drag-frame left"><div class="sld-drag-track"><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span><span>DRAG &uarr;</span></div></div>
   <div class="sld-photo-wall-head">
-    <p>SHOWOUT / 2026 · <span class="sld-layout-tag">3col-v2</span></p>
+    <p>SHOWOUT / 2026 · <span class="sld-layout-tag">4col-v1</span></p>
     <h2>Moments kept in frame</h2>
   </div>
   <div class="sld-floating-gallery">
