@@ -136,17 +136,76 @@
 
 
 
+<style>
+  .sld-lang-switch { flex-shrink: 0; line-height: 0; margin-left: auto; }
+  .sld-lang-switch .sld-lang-track {
+    background: #fff;
+    border: 1px solid rgba(32, 38, 34, .14);
+    border-radius: 999px;
+    display: inline-grid;
+    grid-template-columns: repeat(2, minmax(40px, 1fr));
+    isolation: isolate;
+    min-width: 96px;
+    padding: 3px;
+    position: relative;
+  }
+  .sld-lang-switch .sld-lang-track::before {
+    background: #111412;
+    border-radius: 999px;
+    content: '';
+    height: calc(100% - 6px);
+    left: 3px;
+    position: absolute;
+    top: 3px;
+    transition: transform .24s ease;
+    width: calc(50% - 3px);
+    z-index: 0;
+  }
+  .sld-lang-switch.is-en .sld-lang-track::before { transform: translateX(100%); }
+  .sld-lang-switch button.sld-lang-option {
+    -webkit-appearance: none;
+    appearance: none;
+    align-items: center;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 999px;
+    box-shadow: none !important;
+    color: #68726c;
+    cursor: pointer;
+    display: inline-flex;
+    font: 700 13px/1 inherit;
+    justify-content: center;
+    margin: 0;
+    min-height: 34px;
+    outline: none;
+    padding: 0 14px;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+  }
+  .sld-lang-switch button.sld-lang-option.is-active { color: #f4f7f1; }
+  html[data-theme='dark'] .sld-lang-switch .sld-lang-track {
+    background: rgba(27, 32, 29, .96);
+    border-color: rgba(238, 243, 238, .14);
+  }
+  html[data-theme='dark'] .sld-lang-switch .sld-lang-track::before { background: #eef3ee; }
+  html[data-theme='dark'] .sld-lang-switch button.sld-lang-option.is-active { color: #111412; }
+</style>
 <script>
   try {
     if (localStorage.getItem('sldawn-lang') === 'en') {
       document.documentElement.lang = 'en';
       document.documentElement.setAttribute('data-sld-lang', 'en');
+      document.addEventListener('DOMContentLoaded', function() {
+        var sw = document.querySelector('.sld-lang-switch');
+        if (sw) sw.classList.add('is-en');
+      });
     }
   } catch (error) {}
 </script>
 <div class="sld-lang-switch" role="group" aria-label="Language switcher">
   <div class="sld-lang-track">
-    <button type="button" class="sld-lang-option" data-lang="zh" aria-pressed="true">中</button>
+    <button type="button" class="sld-lang-option is-active" data-lang="zh" aria-pressed="true">中</button>
     <button type="button" class="sld-lang-option" data-lang="en" aria-pressed="false">EN</button>
   </div>
 </div>
