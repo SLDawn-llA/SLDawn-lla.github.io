@@ -116,10 +116,18 @@
 
 
 
+<script>
+  try {
+    if (localStorage.getItem('sldawn-lang') === 'en') {
+      document.documentElement.lang = 'en';
+      document.documentElement.setAttribute('data-sld-lang', 'en');
+    }
+  } catch (error) {}
+</script>
 <div class="sld-lang-switch" role="group" aria-label="Language switcher">
   <div class="sld-lang-track">
-    <a class="sld-lang-option" data-lang="zh" href="/">中</a>
-    <a class="sld-lang-option" data-lang="en" href="/en/">EN</a>
+    <button type="button" class="sld-lang-option" data-lang="zh" aria-pressed="true">中</button>
+    <button type="button" class="sld-lang-option" data-lang="en" aria-pressed="false">EN</button>
   </div>
 </div>
 
@@ -282,11 +290,11 @@
       <span>OPEN</span>
       <span>AND SEE</span>
     </h1>
-    <p class="sld-hero-copy">记录开发、开源项目和镜头里的日常，把想法做成能被看见、能被使用的东西。</p>
+    <p class="sld-hero-copy" data-sld-i18n="home.hero.copy">记录开发、开源项目和镜头里的日常，把想法做成能被看见、能被使用的东西。</p>
     <div class="sld-hero-actions">
-      <a href="/projects/">GitHub 项目</a>
-      <a href="/photography/">摄影作品</a>
-      <a href="/archives/">文章归档</a>
+      <a href="/projects/" data-sld-i18n="home.hero.action.projects">GitHub 项目</a>
+      <a href="/photography/" data-sld-i18n="home.hero.action.photography">摄影作品</a>
+      <a href="/archives/" data-sld-i18n="home.hero.action.archives">文章归档</a>
     </div>
     <div class="sld-scroll-note">- scroll carefully, keep creating -</div>
   </section>
@@ -294,21 +302,23 @@
     <div>
       <span class="sld-index">01</span>
       <h2>Open Source</h2>
-      <p>把常用工具、实验项目和学习成果沉淀到 GitHub，主页直接给访问者一个项目入口。</p>
+      <p data-sld-i18n="home.band.1.body">把常用工具、实验项目和学习成果沉淀到 GitHub，主页直接给访问者一个项目入口。</p>
     </div>
     <div>
       <span class="sld-index">02</span>
       <h2>Photography</h2>
-      <p>给照片一个独立空间，适合放旅行、街拍、校园、生活碎片和阶段性合集。</p>
+      <p data-sld-i18n="home.band.2.body">给照片一个独立空间，适合放旅行、街拍、校园、生活碎片和阶段性合集。</p>
     </div>
     <div>
       <span class="sld-index">03</span>
       <h2>Writing</h2>
-      <p>博客文章继续保留在下方，作为长期思考和技术记录的主线。</p>
+      <p data-sld-i18n="home.band.3.body">博客文章继续保留在下方，作为长期思考和技术记录的主线。</p>
     </div>
   </section>
 </template>
 
+<script src="/js/sld-post-i18n.js"></script>
+<script src="/js/sld-i18n.js"></script>
 <script>
   (function() {
     const STORAGE_KEY = 'sldawn-theme';
@@ -325,49 +335,24 @@
       if (saved) applyTheme(saved);
     } catch (error) {}
 
-    function normalizePathname(pathname) {
-      if (!pathname || pathname === '/index.html') return '/';
-      if (pathname.endsWith('/index.html')) {
-        return pathname.slice(0, -('/index.html'.length)) || '/';
+    function mountHomeTemplate() {
+      if (location.pathname !== '/' && location.pathname !== '/index.html') return;
+      const content = document.querySelector('.content');
+      const template = document.querySelector('#sld-home-template');
+      if (content && template && !document.querySelector('.sld-hero')) {
+        content.prepend(template.content.cloneNode(true));
       }
-      return pathname.endsWith('/') ? pathname : pathname + '/';
     }
 
-    function getLangFromPath(pathname) {
-      const path = normalizePathname(pathname);
-      return path === '/en/' || path.startsWith('/en/') ? 'en' : 'zh';
-    }
-
-    function buildLangPath(targetLang, pathname) {
-      const path = normalizePathname(pathname);
-      if (targetLang === 'en') {
-        if (path === '/en/' || path.startsWith('/en/')) return path;
-        if (path === '/') return '/en/';
-        return '/en' + path;
-      }
-      if (path === '/en/') return '/';
-      if (path.startsWith('/en/')) return path.slice(3) || '/';
-      return path;
-    }
-
-    function initLangSwitch() {
-      const switcher = document.querySelector('.sld-lang-switch');
-      if (!switcher) return;
-
-      const currentLang = getLangFromPath(location.pathname);
-      switcher.classList.toggle('is-en', currentLang === 'en');
-
-      switcher.querySelectorAll('.sld-lang-option').forEach(function(link) {
-        const lang = link.dataset.lang;
-        const href = buildLangPath(lang, location.pathname);
-        link.href = href;
-        link.classList.toggle('is-active', lang === currentLang);
-        link.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
-      });
+    function applySiteLanguage() {
+      if (!window.SLDawnI18n) return;
+      window.SLDawnI18n.initSwitcher();
+      window.SLDawnI18n.applyLang(window.SLDawnI18n.getLang());
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-      initLangSwitch();
+      mountHomeTemplate();
+      applySiteLanguage();
       document.body.classList.remove('sidebar-active');
 
       window.addEventListener('wheel', function(event) {
@@ -379,14 +364,6 @@
         requestAnimationFrame(function() {
           loader.classList.add('is-hidden');
         });
-      }
-
-      if (location.pathname === '/' || location.pathname === '/index.html') {
-        const content = document.querySelector('.content');
-        const template = document.querySelector('#sld-home-template');
-        if (content && template && !document.querySelector('.sld-hero')) {
-          content.prepend(template.content.cloneNode(true));
-        }
       }
 
       document.querySelectorAll('.sld-shot img').forEach(function(img) {
@@ -431,14 +408,13 @@
       const button = document.querySelector('.toggle-darkmode');
       if (!button) return;
 
-      button.setAttribute('title', '切换明暗模式');
-      button.setAttribute('aria-label', '切换明暗模式');
       button.addEventListener('click', function() {
         const nextTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         applyTheme(nextTheme);
         try {
           localStorage.setItem(STORAGE_KEY, nextTheme);
         } catch (error) {}
+        applySiteLanguage();
       });
     });
   })();
