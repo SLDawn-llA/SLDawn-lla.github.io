@@ -113,12 +113,18 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-项目"><a href="/projects/" rel="section"><i class="fab fa-github fa-fw"></i>项目</a></li><li class="menu-item menu-item-摄影"><a href="/photography/" rel="section"><i class="fa fa-camera-retro fa-fw"></i>摄影</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-english"><a href="/en/" rel="section"><i class="fa fa-language fa-fw"></i>English</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-项目"><a href="/projects/" rel="section"><i class="fab fa-github fa-fw"></i>项目</a></li><li class="menu-item menu-item-摄影"><a href="/photography/" rel="section"><i class="fa fa-camera-retro fa-fw"></i>摄影</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
   </ul>
 </nav>
 
 
 
+<div class="sld-lang-switch" role="group" aria-label="Language switcher">
+  <div class="sld-lang-track">
+    <a class="sld-lang-option" data-lang="zh" href="/">中</a>
+    <a class="sld-lang-option" data-lang="en" href="/en/">EN</a>
+  </div>
+</div>
 
 </header>
         
@@ -534,7 +540,49 @@ body:has(.sld-project-cardwall) .content {
       if (saved) applyTheme(saved);
     } catch (error) {}
 
+    function normalizePathname(pathname) {
+      if (!pathname || pathname === '/index.html') return '/';
+      if (pathname.endsWith('/index.html')) {
+        return pathname.slice(0, -('/index.html'.length)) || '/';
+      }
+      return pathname.endsWith('/') ? pathname : pathname + '/';
+    }
+
+    function getLangFromPath(pathname) {
+      const path = normalizePathname(pathname);
+      return path === '/en/' || path.startsWith('/en/') ? 'en' : 'zh';
+    }
+
+    function buildLangPath(targetLang, pathname) {
+      const path = normalizePathname(pathname);
+      if (targetLang === 'en') {
+        if (path === '/en/' || path.startsWith('/en/')) return path;
+        if (path === '/') return '/en/';
+        return '/en' + path;
+      }
+      if (path === '/en/') return '/';
+      if (path.startsWith('/en/')) return path.slice(3) || '/';
+      return path;
+    }
+
+    function initLangSwitch() {
+      const switcher = document.querySelector('.sld-lang-switch');
+      if (!switcher) return;
+
+      const currentLang = getLangFromPath(location.pathname);
+      switcher.classList.toggle('is-en', currentLang === 'en');
+
+      switcher.querySelectorAll('.sld-lang-option').forEach(function(link) {
+        const lang = link.dataset.lang;
+        const href = buildLangPath(lang, location.pathname);
+        link.href = href;
+        link.classList.toggle('is-active', lang === currentLang);
+        link.setAttribute('aria-pressed', lang === currentLang ? 'true' : 'false');
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
+      initLangSwitch();
       document.body.classList.remove('sidebar-active');
 
       window.addEventListener('wheel', function(event) {
