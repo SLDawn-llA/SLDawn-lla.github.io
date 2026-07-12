@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-15.jpg">
 <meta property="og:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-16.jpg">
 <meta property="article:published_time" content="2026-06-22T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-26T16:15:26.488Z">
+<meta property="article:modified_time" content="2026-07-12T11:59:24.861Z">
 <meta property="article:author" content="SLDawn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://sldawn-lla.github.io/images/photos/showout/photo-01.jpg">
@@ -307,6 +307,10 @@ html.sld-lightbox-open {
   background: #151515 !important;
   overflow: hidden !important;
 }
+body.sld-stage-locked,
+html.sld-stage-locked {
+  overflow: hidden !important;
+}
 body:has(.sld-photo-stage) .headband,
 body:has(.sld-photo-stage) .header,
 body:has(.sld-photo-stage) .post-header,
@@ -536,6 +540,7 @@ body:has(.sld-photo-stage) .main-inner {
 .sld-photo-enter {
   bottom: 34px;
   color: #20ef39;
+  cursor: pointer;
   font-size: 12px;
   font-weight: 900;
   left: 50%;
@@ -920,6 +925,13 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
 (function() {
   if (window.CONFIG) window.CONFIG.mediumzoom = false;
   let initRetries = 0;
+  let stageLocked = true;
+
+  function setStageLocked(locked) {
+    stageLocked = locked;
+    document.body.classList.toggle('sld-stage-locked', locked);
+    document.documentElement.classList.toggle('sld-stage-locked', locked);
+  }
 
   function fitFullBleed() {
     document.querySelectorAll('.sld-photo-stage, .sld-photo-wall').forEach(function(section) {
@@ -931,9 +943,10 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
   }
 
   function initPhotoWall() {
+    const stage = document.querySelector('.sld-photo-stage');
     const wall = document.querySelector('.sld-photo-wall');
     const gallery = document.querySelector('.sld-floating-gallery');
-    if (!wall || !gallery) {
+    if (!stage || !wall || !gallery) {
       if (initRetries < 40) {
         initRetries += 1;
         setTimeout(initPhotoWall, 50);
@@ -1053,6 +1066,14 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     const focusTitle = focusMeta.querySelector('h3');
     const focusDate = focusMeta.querySelector('p');
     const focusClose = focusView.querySelector('.sld-focus-close');
+    const stageEnter = document.querySelector('.sld-photo-enter');
+
+    setStageLocked(true);
+
+    function unlockStageAndGo(target) {
+      setStageLocked(false);
+      (target || wall).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
     function clamp(value, min, max) {
       return Math.min(max, Math.max(min, value));
@@ -1192,12 +1213,34 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
       topButton.addEventListener('click', function(event) {
         event.preventDefault();
         event.stopPropagation();
-        const stage = document.querySelector('.sld-photo-stage');
         if (stage) {
+          setStageLocked(true);
           stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
           return;
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    function blockStageScroll(event) {
+      if (!stageLocked || focusOpen) return;
+      event.preventDefault();
+    }
+
+    stage.addEventListener('wheel', blockStageScroll, { passive: false });
+    stage.addEventListener('touchmove', blockStageScroll, { passive: false });
+
+    window.addEventListener('keydown', function(event) {
+      if (!stageLocked || focusOpen) return;
+      if (['ArrowDown', 'PageDown', ' ', 'Spacebar', 'End'].includes(event.key)) {
+        event.preventDefault();
+      }
+    }, { passive: false });
+
+    if (stageEnter) {
+      stageEnter.addEventListener('click', function(event) {
+        event.preventDefault();
+        unlockStageAndGo(wall);
       });
     }
 
@@ -1244,7 +1287,7 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
         const target = document.querySelector(link.getAttribute('href'));
         if (!target) return;
         event.preventDefault();
-        wall.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        unlockStageAndGo(wall);
         const jumpToTarget = function() {
           const targetLeft = parseFloat(target.style.left || getComputedStyle(target).left) || 0;
           const targetTop = parseFloat(target.style.top || getComputedStyle(target).top) || 0;
@@ -1314,7 +1357,6 @@ html:has(.sld-photo-wall.is-dragging) .sld-drag-frame,
     </figure>
   </div>
 </section>
-
 
       </div>
       
