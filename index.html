@@ -222,18 +222,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -255,6 +255,91 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://sldawn-lla.github.io/2026/10/22/2026-10-22-417347b3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="SLDawn">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SLDawn's Blog">
+      <meta itemprop="description" content="个人博客 - 记录学习、思考和分享">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | SLDawn's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/10/22/2026-10-22-417347b3/" class="post-title-link" itemprop="url">76. 最小覆盖子串</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-10-22 06:55:45 / 修改时间：06:55:54" itemprop="dateCreated datePublished" datetime="2026-10-22T06:55:45+08:00">2026-10-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>题号：<br>题目链接：<br>难度：</p>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"># 在这里写你的解法</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">minWindow</span><span class="params">(string s, string t)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> need[<span class="number">128</span>]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="type">int</span> window[<span class="number">128</span>]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="type">int</span> right=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> start=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> left=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> count=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> kinds=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> minlen=INT_MAX;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> c:t) need[c]++;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">128</span>;i++) <span class="keyword">if</span>(need[i]&gt;<span class="number">0</span>) kinds++;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(right&lt;s.<span class="built_in">size</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">char</span> x=s[right];</span><br><span class="line">            right++;</span><br><span class="line">            <span class="keyword">if</span>(need[x]&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                window[x]++;</span><br><span class="line">                <span class="keyword">if</span>(window[x]==need[x])</span><br><span class="line">                &#123;</span><br><span class="line">                count++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span>(count==kinds)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(right-left&lt;minlen)</span><br><span class="line">                &#123;</span><br><span class="line">                    start=left;</span><br><span class="line">                    minlen=right-left;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="type">char</span> y=s[left];</span><br><span class="line">                left++;</span><br><span class="line">                <span class="keyword">if</span>(need[y]&gt;<span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span>(need[y]==window[y])</span><br><span class="line">                    &#123;</span><br><span class="line">                        count--;<span class="comment">//如果左字符的个数等于所需要的个数，左移动后就不满足条件了，count--</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">//如果是所需的字符的话，就要窗口数组就要减小</span></span><br><span class="line">                    window[y]--;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> minlen==INT_MAX ?   <span class="string">&quot;&quot;</span> : s.<span class="built_in">substr</span>(start,minlen);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><ul>
+<li>时间复杂度：</li>
+<li>空间复杂度：</li>
+</ul>
+<h2 id="踩坑与复盘"><a href="#踩坑与复盘" class="headerlink" title="踩坑与复盘"></a>踩坑与复盘</h2>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
