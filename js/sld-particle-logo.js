@@ -81,7 +81,7 @@
       // Cap to ~30fps; avoid fast-forward when returning to a hidden tab.
       if(last && time-last<31) {frame=requestAnimationFrame(tick);return;}
       elapsed+=last?Math.min(time-last,70):0;last=time;
-      const next=Math.floor(Math.max(0,elapsed-3500)/6500)%2;
+      const next=Math.floor(elapsed/3500)%2;
       if(next!==mode) mode=next;
       draw(time,false);frame=requestAnimationFrame(tick);
     }
