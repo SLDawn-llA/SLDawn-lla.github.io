@@ -7,9 +7,9 @@
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/sldawn-mark.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/sldawn-mark.svg">
+  <link rel="mask-icon" href="/images/sldawn-mark.svg" color="#222">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -402,6 +402,7 @@
 
 <template id="sld-home-template">
   <section class="sld-hero" aria-label="SLDawn home">
+    <div class="sld-hero-writing">
     <div class="sld-hero-kicker">CODE / PHOTO / BLOG</div>
     <h1>
       <span>BUILD</span>
@@ -413,6 +414,12 @@
       <a href="/projects/" data-sld-i18n="home.hero.action.projects">GitHub 项目</a>
       <a href="/photography/" data-sld-i18n="home.hero.action.photography">摄影作品</a>
       <a href="/archives/" data-sld-i18n="home.hero.action.archives">文章归档</a>
+    </div>
+    </div>
+    <div class="sld-particle-stage" aria-label="SLDawn · 代码与黎明粒子标识">
+      <img class="sld-particle-fallback" src="/images/sldawn-mark.svg" alt="SLDawn SD 标识" width="240" height="240">
+      <canvas class="sld-particle-logo" aria-hidden="true"></canvas>
+      <button class="sld-particle-replay" type="button" aria-label="重新播放粒子标识动画">SLDAWN / REPLAY ↻</button>
     </div>
     <div class="sld-scroll-note">- scroll carefully, keep creating -</div>
   </section>
@@ -437,6 +444,7 @@
 
 <script src="/js/sld-post-i18n.js"></script>
 <script src="/js/sld-i18n.js"></script>
+<script src="/js/sld-particle-logo.js"></script>
 <script>
   (function() {
     const STORAGE_KEY = 'sldawn-theme';
@@ -455,7 +463,7 @@
 
     function mountHomeTemplate() {
       if (location.pathname !== '/' && location.pathname !== '/index.html') return;
-      const content = document.querySelector('.content');
+      const content = document.querySelector('.content') || document.querySelector('.main-inner.index');
       const template = document.querySelector('#sld-home-template');
       if (content && template && !document.querySelector('.sld-hero')) {
         content.prepend(template.content.cloneNode(true));
@@ -470,6 +478,7 @@
 
     document.addEventListener('DOMContentLoaded', function() {
       mountHomeTemplate();
+      if (window.SLDawnParticles) window.SLDawnParticles.init();
       applySiteLanguage();
       document.body.classList.remove('sidebar-active');
 
